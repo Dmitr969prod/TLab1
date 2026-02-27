@@ -22,7 +22,21 @@ namespace TLab1
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             notepad.CreateNewTab(tabControl1);
+        }
 
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.CreateNewTab(tabControl1);
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            notepad.SaveTab(richTextBox1);
         }
     }
 }

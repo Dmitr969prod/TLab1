@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace TLab1
     public class Notepad
     {
         public int tabCounter = 1;
+        public int current_length = 0;
+        public string file = "";
         public void CreateNewTab(TabControl tabControl1)
         {
             var tabPage = new TabPage($"Новый документ{tabCounter++}");
@@ -32,6 +35,37 @@ namespace TLab1
             tabPage.Controls.Add( splitContainer );
             tabControl1.TabPages.Add(tabPage);
             tabControl1.SelectedTab = tabPage;
+        }
+
+        public void SaveTab(RichTextBox textBox)
+        {
+            if (string.IsNullOrEmpty(this.file)) 
+            {
+                SaveFileDialog saving = new SaveFileDialog
+                {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*",
+                    Title = "Сохранить как",
+                    FileName = "Новый документ"
+
+
+                };
+                if (saving.ShowDialog() == DialogResult.OK)
+                {
+                    file = saving.FileName;
+                    StreamWriter writing = new StreamWriter(saving.FileName);
+                    current_length = textBox.Text.Length;
+                    writing.Write(textBox.Text);
+                    writing.Close();
+                }
+            }
+            else
+            {
+                StreamWriter writer = new StreamWriter(file);
+                current_length = textBox.Text.Length;
+                writer.Write(textBox.Text);
+                writer.Close();
+            }
         }
     }
 }
