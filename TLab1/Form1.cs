@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace TLab1
 {
@@ -21,8 +22,20 @@ namespace TLab1
         public Form1()
         {
             InitializeComponent();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
         }
-       
+        private void FormIsClosing(object sender, FormClosingEventArgs e)
+        {
+            if (notepad.CommitChanges(_documents, _documents[tabControl1.SelectedTab]))
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {

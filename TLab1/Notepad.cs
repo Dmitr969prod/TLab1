@@ -17,32 +17,48 @@ namespace TLab1
         public string file = "";
         public int tabCounter = 1;
 
+        public bool CommitChanges(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
+        {
+            if (docInfo.TextBox.Text.Length > current_length || docInfo.TextBox.Text.Length < current_length)
+            {
+                DialogResult dlg = MessageBox.Show("Сохранить изменения?", "Предупреждение", MessageBoxButtons.YesNo);
+                if (dlg == DialogResult.Yes)
+                {
+                    SaveTab(documents, docInfo);
+                }
+            }
+            return true;
+        }
+
         public void CreateNewTab(Dictionary<TabPage, DocInfo> documents, TabControl tabControl1)
         {
-            var tabPage = new TabPage($"Новый документ{tabCounter++}");
 
-            var splitContainer = new SplitContainer
-            {
-                Dock = DockStyle.Fill,
-                Orientation = Orientation.Horizontal,
-            };
-            var textBox = new RichTextBox
-            {
-                Dock = DockStyle.Fill
-            };
-            var dataGrid = new DataGridView
-            {
-                Dock = DockStyle.Fill
-            };
-            splitContainer.Panel1.Controls.Add(textBox);
-            splitContainer.Panel2.Controls.Add(dataGrid);
-            tabPage.Controls.Add(splitContainer);
+                var tabPage = new TabPage($"Новый документ{tabCounter++}");
 
-            var docInfo = new DocInfo(textBox, dataGrid, splitContainer);
-            documents[tabPage] = docInfo;
+                var splitContainer = new SplitContainer
+                {
+                    Dock = DockStyle.Fill,
+                    Orientation = Orientation.Horizontal,
+                };
+                var textBox = new RichTextBox
+                {
+                    Dock = DockStyle.Fill
+                };
+                var dataGrid = new DataGridView
+                {
+                    Dock = DockStyle.Fill
+                };
+                splitContainer.Panel1.Controls.Add(textBox);
+                splitContainer.Panel2.Controls.Add(dataGrid);
+                tabPage.Controls.Add(splitContainer);
 
-            tabControl1.TabPages.Add(tabPage);
-            tabControl1.SelectedTab = tabPage;
+                var docInfo = new DocInfo(textBox, dataGrid, splitContainer);
+                documents[tabPage] = docInfo;
+
+                tabControl1.TabPages.Add(tabPage);
+                tabControl1.SelectedTab = tabPage;
+
+            
         }
 
         private void UpdateTabTitle(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
@@ -57,6 +73,7 @@ namespace TLab1
 
         public void SaveTab(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
         {
+
             if (string.IsNullOrEmpty(docInfo.FileName)) 
             {
                 SaveFileDialog saving = new SaveFileDialog
@@ -91,6 +108,7 @@ namespace TLab1
 
         public void OpenFile(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
         {
+
             
 
             OpenFileDialog open = new OpenFileDialog
