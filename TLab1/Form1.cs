@@ -35,6 +35,7 @@ namespace TLab1
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             
+            notepad.OpenFile(_documents, _documents[tabControl1.SelectedTab]);
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)

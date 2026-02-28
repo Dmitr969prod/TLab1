@@ -88,5 +88,27 @@ namespace TLab1
                 UpdateTabTitle(documents, docInfo);
             }
         }
+
+        public void OpenFile(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
+        {
+
+            OpenFileDialog open = new OpenFileDialog
+            {
+                Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*",
+                Title = "Открыть",
+                FileName = ""
+            };
+
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                
+                docInfo.FileName = string.Format("{0}", Path.GetFileNameWithoutExtension(open.FileName));
+                StreamReader reader = new StreamReader(open.FileName);
+                docInfo.TextBox.Text = reader.ReadToEnd();
+                reader.Close();
+
+                UpdateTabTitle(documents, docInfo);
+            }
+        }
     }
 }
