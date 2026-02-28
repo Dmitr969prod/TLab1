@@ -39,7 +39,17 @@ namespace TLab1
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            notepad.SaveTab(_documents[tabControl1.SelectedTab]);
+            notepad.SaveTab(_documents, _documents[tabControl1.SelectedTab]);
+        }
+
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.SaveTab(_documents, _documents[tabControl1.SelectedTab]);
+        }
+
+        private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.SaveTab(_documents, _documents[tabControl1.SelectedTab]);
         }
     }
 }

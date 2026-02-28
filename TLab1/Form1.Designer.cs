@@ -100,7 +100,7 @@
             this.видToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -113,38 +113,40 @@
             this.сохранитьКакToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(69, 30);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
             // создатьToolStripMenuItem
             // 
             this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
-            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(232, 34);
+            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.создатьToolStripMenuItem.Text = "Создать";
             this.создатьToolStripMenuItem.Click += new System.EventHandler(this.создатьToolStripMenuItem_Click);
             // 
             // открытьToolStripMenuItem
             // 
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
-            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(232, 34);
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.открытьToolStripMenuItem.Text = "Открыть";
             // 
             // сохранитьToolStripMenuItem
             // 
             this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
-            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(232, 34);
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
             // 
             // сохранитьКакToolStripMenuItem
             // 
             this.сохранитьКакToolStripMenuItem.Name = "сохранитьКакToolStripMenuItem";
-            this.сохранитьКакToolStripMenuItem.Size = new System.Drawing.Size(232, 34);
+            this.сохранитьКакToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.сохранитьКакToolStripMenuItem.Text = "Сохранить как";
+            this.сохранитьКакToolStripMenuItem.Click += new System.EventHandler(this.сохранитьКакToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(232, 34);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.выходToolStripMenuItem.Text = "Выход";
             // 
             // правкаToolStripMenuItem
@@ -158,7 +160,7 @@
             this.удалитьToolStripMenuItem,
             this.выделитьВсеToolStripMenuItem});
             this.правкаToolStripMenuItem.Name = "правкаToolStripMenuItem";
-            this.правкаToolStripMenuItem.Size = new System.Drawing.Size(89, 30);
+            this.правкаToolStripMenuItem.Size = new System.Drawing.Size(89, 29);
             this.правкаToolStripMenuItem.Text = "Правка";
             // 
             // отменитьToolStripMenuItem
@@ -214,7 +216,7 @@
             this.списокЛитературыToolStripMenuItem,
             this.исходныйКодПрограммыToolStripMenuItem});
             this.текстToolStripMenuItem.Name = "текстToolStripMenuItem";
-            this.текстToolStripMenuItem.Size = new System.Drawing.Size(70, 30);
+            this.текстToolStripMenuItem.Size = new System.Drawing.Size(70, 29);
             this.текстToolStripMenuItem.Text = "Текст";
             // 
             // постановкаЗадачиToolStripMenuItem
@@ -262,7 +264,7 @@
             // пускToolStripMenuItem
             // 
             this.пускToolStripMenuItem.Name = "пускToolStripMenuItem";
-            this.пускToolStripMenuItem.Size = new System.Drawing.Size(67, 30);
+            this.пускToolStripMenuItem.Size = new System.Drawing.Size(67, 29);
             this.пускToolStripMenuItem.Text = "Пуск";
             // 
             // справкаToolStripMenuItem
@@ -271,7 +273,7 @@
             this.вызовСправкиToolStripMenuItem,
             this.оПрограммеToolStripMenuItem});
             this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
-            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(97, 30);
+            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(97, 29);
             this.справкаToolStripMenuItem.Text = "Справка";
             // 
             // вызовСправкиToolStripMenuItem
@@ -289,13 +291,13 @@
             // локализацияToolStripMenuItem
             // 
             this.локализацияToolStripMenuItem.Name = "локализацияToolStripMenuItem";
-            this.локализацияToolStripMenuItem.Size = new System.Drawing.Size(135, 30);
+            this.локализацияToolStripMenuItem.Size = new System.Drawing.Size(135, 29);
             this.локализацияToolStripMenuItem.Text = "Локализация";
             // 
             // видToolStripMenuItem
             // 
             this.видToolStripMenuItem.Name = "видToolStripMenuItem";
-            this.видToolStripMenuItem.Size = new System.Drawing.Size(58, 30);
+            this.видToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
             this.видToolStripMenuItem.Text = "Вид";
             // 
             // toolStrip1
@@ -314,9 +316,9 @@
             this.toolStripButton10,
             this.toolStripButton11,
             this.toolStripButton12});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 36);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 33);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 38);
+            this.toolStrip1.Size = new System.Drawing.Size(800, 33);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -326,7 +328,7 @@
             this.toolStripButton2.Image = global::TLab1.Properties.Resources.add;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton2.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton2.Text = "Создать";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
@@ -336,7 +338,7 @@
             this.toolStripButton3.Image = global::TLab1.Properties.Resources.Save;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton3.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton3.Text = "Открыть...";
             this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
@@ -346,7 +348,7 @@
             this.toolStripButton4.Image = global::TLab1.Properties.Resources.SAVE1;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton4.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton4.Text = "Сохранить";
             this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
@@ -356,7 +358,7 @@
             this.toolStripButton5.Image = global::TLab1.Properties.Resources.left;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton5.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton5.Text = "Отмена";
             // 
             // toolStripButton6
@@ -365,7 +367,7 @@
             this.toolStripButton6.Image = global::TLab1.Properties.Resources.right;
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton6.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton6.Text = "Повтор";
             // 
             // toolStripButton7
@@ -374,7 +376,7 @@
             this.toolStripButton7.Image = global::TLab1.Properties.Resources.copy;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton7.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton7.Text = "Копировать";
             // 
             // toolStripButton8
@@ -383,7 +385,7 @@
             this.toolStripButton8.Image = global::TLab1.Properties.Resources.Cut;
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton8.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton8.Text = "Вырезать";
             // 
             // toolStripButton9
@@ -392,7 +394,7 @@
             this.toolStripButton9.Image = global::TLab1.Properties.Resources.paste;
             this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton9.Name = "toolStripButton9";
-            this.toolStripButton9.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton9.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton9.Text = "Вставить";
             // 
             // toolStripButton10
@@ -401,7 +403,7 @@
             this.toolStripButton10.Image = global::TLab1.Properties.Resources.free_icon_play_button_6611479;
             this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton10.Name = "toolStripButton10";
-            this.toolStripButton10.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton10.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton10.Text = "Пуск";
             // 
             // toolStripButton11
@@ -410,7 +412,7 @@
             this.toolStripButton11.Image = global::TLab1.Properties.Resources.q_;
             this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton11.Name = "toolStripButton11";
-            this.toolStripButton11.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton11.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton11.Text = "Справка";
             // 
             // toolStripButton12
@@ -419,7 +421,7 @@
             this.toolStripButton12.Image = global::TLab1.Properties.Resources._123;
             this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton12.Name = "toolStripButton12";
-            this.toolStripButton12.Size = new System.Drawing.Size(34, 33);
+            this.toolStripButton12.Size = new System.Drawing.Size(34, 28);
             this.toolStripButton12.Text = "О программе";
             // 
             // toolStripButton1
@@ -436,10 +438,10 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 74);
+            this.tabControl1.Location = new System.Drawing.Point(0, 66);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(800, 376);
+            this.tabControl1.Size = new System.Drawing.Size(800, 384);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -448,7 +450,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(792, 343);
+            this.tabPage1.Size = new System.Drawing.Size(792, 351);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Новый документ";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -467,8 +469,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Size = new System.Drawing.Size(786, 337);
-            this.splitContainer1.SplitterDistance = 255;
+            this.splitContainer1.Size = new System.Drawing.Size(786, 345);
+            this.splitContainer1.SplitterDistance = 261;
             this.splitContainer1.TabIndex = 0;
             // 
             // richTextBox1
@@ -476,7 +478,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(786, 255);
+            this.richTextBox1.Size = new System.Drawing.Size(786, 261);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -489,7 +491,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(786, 78);
+            this.dataGridView1.Size = new System.Drawing.Size(786, 80);
             this.dataGridView1.TabIndex = 0;
             // 
             // Form1

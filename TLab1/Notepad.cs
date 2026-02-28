@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace TLab1
 {
@@ -44,9 +45,19 @@ namespace TLab1
             tabControl1.SelectedTab = tabPage;
         }
 
-        public void SaveTab(DocInfo docInfo)
+        private void UpdateTabTitle(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
         {
-            if (string.IsNullOrEmpty(this.file)) 
+            var tabPage = documents.FirstOrDefault(x => x.Value == docInfo).Key;
+
+            if (tabPage != null)
+            {
+                tabPage.Text = Path.GetFileName(docInfo.FileName);
+            }
+        }
+
+        public void SaveTab(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
+        {
+            if (string.IsNullOrEmpty(docInfo.FileName)) 
             {
                 SaveFileDialog saving = new SaveFileDialog
                 {
@@ -59,19 +70,22 @@ namespace TLab1
                 };
                 if (saving.ShowDialog() == DialogResult.OK)
                 {
-                    file = saving.FileName;
+                    docInfo.FileName = saving.FileName;
                     StreamWriter writing = new StreamWriter(saving.FileName);
                     current_length = docInfo.TextBox.Text.Length;
                     writing.Write(docInfo.TextBox.Text);
                     writing.Close();
+
+                    UpdateTabTitle(documents, docInfo);
                 }
             }
             else
             {
-                StreamWriter writer = new StreamWriter(file);
+                StreamWriter writer = new StreamWriter(docInfo.FileName);
                 current_length = docInfo.TextBox.Text.Length;
                 writer.Write(docInfo.TextBox.Text);
                 writer.Close();
+                UpdateTabTitle(documents, docInfo);
             }
         }
     }

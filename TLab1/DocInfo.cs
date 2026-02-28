@@ -9,6 +9,7 @@ namespace TLab1
 {
     public class DocInfo
     {
+        public string FileName { get; set; }
         public RichTextBox TextBox { get; set; }
         public DataGridView DataGrid { get; set; }
         public SplitContainer SplitContainer { get; set; }
@@ -20,6 +21,7 @@ namespace TLab1
         }
         public DocInfo(RichTextBox textBox, DataGridView dataGrid, SplitContainer splitContainer)
         {
+            FileName = null;
             TextBox = textBox;
             DataGrid = dataGrid;
             SplitContainer = splitContainer;
