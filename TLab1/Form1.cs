@@ -73,7 +73,7 @@ namespace TLab1
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            notepad.CreateNewTab(_documents, tabControl1);
 
             notepad.OpenFile(_documents, _documents[tabControl1.SelectedTab]);
         }
