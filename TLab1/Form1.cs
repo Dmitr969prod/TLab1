@@ -57,5 +57,75 @@ namespace TLab1
         {
             notepad.SaveTab(_documents, _documents[tabControl1.SelectedTab]);
         }
+
+        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_documents == null || _documents.Count == 0)
+            {
+                notepad.CreateNewTab(_documents, tabControl1);
+            }
+
+            notepad.OpenFile(_documents, _documents[tabControl1.SelectedTab]);
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            notepad.FileUndo(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            notepad.FileRedo(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void отменитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.FileUndo(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void повторитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.FileRedo(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void toolStripButton7_Click(object sender, EventArgs e)
+        {
+            notepad.FileCopy(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void toolStripButton8_Click(object sender, EventArgs e)
+        {
+            notepad.FileCut(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void toolStripButton9_Click(object sender, EventArgs e)
+        {
+            notepad.FilePaste(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.FileCut(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void копироватьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.FileCopy(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void вставитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.FilePaste(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.FileClear(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void выделитьВсеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.FileSelectAll(_documents[tabControl1.SelectedTab].TextBox);
+        }
     }
 }

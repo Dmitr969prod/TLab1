@@ -111,5 +111,40 @@ namespace TLab1
                 UpdateTabTitle(documents, docInfo);
             }
         }
+        public void FileUndo(RichTextBox r)
+        {
+            if (r.CanUndo)
+            {
+                r.Undo();
+            }
+        }
+        public void FileRedo(RichTextBox r)
+        {
+            if (r.CanRedo)
+            {
+                if (r.RedoActionName != "Delete")
+                    r.Redo();
+            }
+        }
+        public void FileCut(RichTextBox r)
+        {
+            if (r.SelectedText.Length > 0) r.Cut();
+        }
+        public void FileCopy(RichTextBox r)
+        {
+            if (r.SelectedText.Length > 0) r.Copy();
+        }
+        public void FilePaste(RichTextBox r)
+        {
+            r.Paste();
+        }
+        public void FileClear(RichTextBox r)
+        {
+            r.Clear();
+        }
+        public void FileSelectAll(RichTextBox r)
+        {
+            r.SelectAll();
+        }
     }
 }
