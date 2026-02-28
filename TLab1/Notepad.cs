@@ -14,8 +14,35 @@ namespace TLab1
        
         public int current_length = 0;
         public string file = "";
-        
-       
+        public int tabCounter = 1;
+
+        public void CreateNewTab(Dictionary<TabPage, DocInfo> documents, TabControl tabControl1)
+        {
+            var tabPage = new TabPage($"Новый документ{tabCounter++}");
+
+            var splitContainer = new SplitContainer
+            {
+                Dock = DockStyle.Fill,
+                Orientation = Orientation.Horizontal,
+            };
+            var textBox = new RichTextBox
+            {
+                Dock = DockStyle.Fill
+            };
+            var dataGrid = new DataGridView
+            {
+                Dock = DockStyle.Fill
+            };
+            splitContainer.Panel1.Controls.Add(textBox);
+            splitContainer.Panel2.Controls.Add(dataGrid);
+            tabPage.Controls.Add(splitContainer);
+
+            var docInfo = new DocInfo(textBox, dataGrid, splitContainer);
+            documents[tabPage] = docInfo;
+
+            tabControl1.TabPages.Add(tabPage);
+            tabControl1.SelectedTab = tabPage;
+        }
 
         public void SaveTab(DocInfo docInfo)
         {
