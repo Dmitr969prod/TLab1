@@ -36,10 +36,9 @@ namespace TLab1
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            if (_documents == null || _documents.Count == 0)
-            {
-                notepad.CreateNewTab(_documents, tabControl1);
-            }
+            
+            notepad.CreateNewTab(_documents, tabControl1);
+            
 
             notepad.OpenFile(_documents, _documents[tabControl1.SelectedTab]);
         }
@@ -61,10 +60,7 @@ namespace TLab1
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_documents == null || _documents.Count == 0)
-            {
-                notepad.CreateNewTab(_documents, tabControl1);
-            }
+
 
             notepad.OpenFile(_documents, _documents[tabControl1.SelectedTab]);
         }
