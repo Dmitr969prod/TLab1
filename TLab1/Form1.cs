@@ -16,6 +16,7 @@ namespace TLab1
         private Dictionary<TabPage, DocInfo> _documents = new Dictionary<TabPage, DocInfo>();
 
         Notepad notepad = new Notepad();
+        Information info = new Information();
         
         public Form1()
         {
@@ -126,6 +127,16 @@ namespace TLab1
         private void выделитьВсеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             notepad.FileSelectAll(_documents[tabControl1.SelectedTab].TextBox);
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            info.about();
         }
     }
 }
