@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace TLab1
 {
@@ -34,7 +35,11 @@ namespace TLab1
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            
+            if (_documents == null || _documents.Count == 0)
+            {
+                notepad.CreateNewTab(_documents, tabControl1);
+            }
+
             notepad.OpenFile(_documents, _documents[tabControl1.SelectedTab]);
         }
 

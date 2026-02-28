@@ -91,6 +91,7 @@ namespace TLab1
 
         public void OpenFile(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
         {
+            
 
             OpenFileDialog open = new OpenFileDialog
             {
