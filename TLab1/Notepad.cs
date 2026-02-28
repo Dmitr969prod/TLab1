@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,34 +11,13 @@ namespace TLab1
 {
     public class Notepad
     {
-        public int tabCounter = 1;
+       
         public int current_length = 0;
         public string file = "";
-        public void CreateNewTab(TabControl tabControl1)
-        {
-            var tabPage = new TabPage($"Новый документ{tabCounter++}");
-            
-            var splitContainer = new SplitContainer
-            {
-                Dock = DockStyle.Fill,
-                Orientation = Orientation.Horizontal,
-            };
-            var textBox = new RichTextBox
-            {
-                Dock = DockStyle.Fill
-            };
-            var dataGrid = new DataGridView
-            {
-                Dock = DockStyle.Fill
-            };
-            splitContainer.Panel1.Controls.Add( textBox );
-            splitContainer.Panel2.Controls.Add( dataGrid );
-            tabPage.Controls.Add( splitContainer );
-            tabControl1.TabPages.Add(tabPage);
-            tabControl1.SelectedTab = tabPage;
-        }
+        
+       
 
-        public void SaveTab(RichTextBox textBox)
+        public void SaveTab(DocInfo docInfo)
         {
             if (string.IsNullOrEmpty(this.file)) 
             {
@@ -54,16 +34,16 @@ namespace TLab1
                 {
                     file = saving.FileName;
                     StreamWriter writing = new StreamWriter(saving.FileName);
-                    current_length = textBox.Text.Length;
-                    writing.Write(textBox.Text);
+                    current_length = docInfo.TextBox.Text.Length;
+                    writing.Write(docInfo.TextBox.Text);
                     writing.Close();
                 }
             }
             else
             {
                 StreamWriter writer = new StreamWriter(file);
-                current_length = textBox.Text.Length;
-                writer.Write(textBox.Text);
+                current_length = docInfo.TextBox.Text.Length;
+                writer.Write(docInfo.TextBox.Text);
                 writer.Close();
             }
         }
