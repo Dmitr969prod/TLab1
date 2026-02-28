@@ -138,5 +138,15 @@ namespace TLab1
         {
             info.about();
         }
+
+        private void toolStripButton12_Click(object sender, EventArgs e)
+        {
+            info.about();
+        }
+
+        private void toolStripButton11_Click(object sender, EventArgs e)
+        {
+            info.AboutInstructions();
+        }
     }
 }

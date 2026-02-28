@@ -15,10 +15,10 @@ namespace TLab1
             MessageBox.Show("Легкий и быстрый текстовый редактор для повседневных задач");
         }
 
-/*        public static void AboutInstructions()
+        public void AboutInstructions()
         {
-            string htmlFilePath = @"";
+            string htmlFilePath = @"https://github.com/Dmitr969prod/TLab1/blob/develop/TLab1/README.md";
             Process.Start("explorer.exe", htmlFilePath);
-        }*/
+        }
     }
 }
