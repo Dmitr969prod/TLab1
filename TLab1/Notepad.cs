@@ -12,25 +12,35 @@ namespace TLab1
 {
     public class Notepad
     {
+
+        private DocumentManager _documentManager;
+
+        public Notepad(DocumentManager manager)
+        {
+            _documentManager = manager;
+        }
        
         public int current_length = 0;
         public string file = "";
         public int tabCounter = 1;
 
-        public bool CommitChanges(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
+        public bool CommitChanges()
         {
-            if (docInfo.TextBox.Text.Length > current_length || docInfo.TextBox.Text.Length < current_length)
+            _documentManager.AllDocuments.ToList().ForEach(d =>
             {
-                DialogResult dlg = MessageBox.Show("Сохранить изменения?", "Предупреждение", MessageBoxButtons.YesNo);
-                if (dlg == DialogResult.Yes)
+                if (d.IsModified)
                 {
-                    SaveTab(documents, docInfo);
+                    DialogResult dlg = MessageBox.Show($"Сохранить изменения в {d.TabPage.Text}?", "Предупреждение", MessageBoxButtons.YesNo);
+                    if (dlg == DialogResult.Yes)
+                    {
+                        SaveTab(d);
+                    }
                 }
-            }
+            });
             return true;
         }
 
-        public void CreateNewTab(Dictionary<TabPage, DocInfo> documents, TabControl tabControl1)
+        public DocInfo CreateNew()
         {
 
                 var tabPage = new TabPage($"Новый документ{tabCounter++}");
@@ -52,26 +62,23 @@ namespace TLab1
                 splitContainer.Panel2.Controls.Add(dataGrid);
                 tabPage.Controls.Add(splitContainer);
 
-                var docInfo = new DocInfo(textBox, dataGrid, splitContainer);
-                documents[tabPage] = docInfo;
-
-                tabControl1.TabPages.Add(tabPage);
-                tabControl1.SelectedTab = tabPage;
-
-            
+                var docInfo = new DocInfo(tabPage, textBox, dataGrid, splitContainer);
+                _documentManager.Register(tabPage, docInfo);
+                return docInfo;
         }
 
-        private void UpdateTabTitle(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
-        {
-            var tabPage = documents.FirstOrDefault(x => x.Value == docInfo).Key;
 
-            if (tabPage != null)
+
+        private void UpdateTabTitle(DocInfo docInfo)
+        {
+
+            if (docInfo.TabPage != null)
             {
-                tabPage.Text = Path.GetFileName(docInfo.FileName);
+                docInfo.TabPage.Text = Path.GetFileName(docInfo.FileName);
             }
         }
 
-        public void SaveTab(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
+        public void SaveTab(DocInfo docInfo)
         {
 
             if (string.IsNullOrEmpty(docInfo.FileName)) 
@@ -93,7 +100,7 @@ namespace TLab1
                     writing.Write(docInfo.TextBox.Text);
                     writing.Close();
 
-                    UpdateTabTitle(documents, docInfo);
+                    UpdateTabTitle(docInfo);
                 }
             }
             else
@@ -102,14 +109,12 @@ namespace TLab1
                 current_length = docInfo.TextBox.Text.Length;
                 writer.Write(docInfo.TextBox.Text);
                 writer.Close();
-                UpdateTabTitle(documents, docInfo);
+                UpdateTabTitle(docInfo);
             }
         }
 
-        public void OpenFile(Dictionary<TabPage, DocInfo> documents, DocInfo docInfo)
+        public void OpenFile()
         {
-
-            
 
             OpenFileDialog open = new OpenFileDialog
             {
@@ -120,13 +125,14 @@ namespace TLab1
 
             if (open.ShowDialog() == DialogResult.OK)
             {
+                DocInfo docInfo = CreateNew();
                 
                 docInfo.FileName = string.Format("{0}", Path.GetFileNameWithoutExtension(open.FileName));
                 StreamReader reader = new StreamReader(open.FileName);
                 docInfo.TextBox.Text = reader.ReadToEnd();
                 reader.Close();
 
-                UpdateTabTitle(documents, docInfo);
+                UpdateTabTitle(docInfo);
             }
         }
         public void FileUndo(RichTextBox r)

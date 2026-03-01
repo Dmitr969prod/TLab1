@@ -13,14 +13,16 @@ namespace TLab1
         public RichTextBox TextBox { get; set; }
         public DataGridView DataGrid { get; set; }
         public SplitContainer SplitContainer { get; set; }
+        public TabPage TabPage { get; set; }
         public bool IsModified { get; set; }
 
         private void TextBoxChanged(object sender, EventArgs e)
         {
             IsModified = true;
         }
-        public DocInfo(RichTextBox textBox, DataGridView dataGrid, SplitContainer splitContainer)
+        public DocInfo(TabPage tab, RichTextBox textBox, DataGridView dataGrid, SplitContainer splitContainer)
         {
+            TabPage = tab;
             FileName = null;
             TextBox = textBox;
             DataGrid = dataGrid;

@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocInfo.cs" />
+    <Compile Include="DocumentManager.cs" />
     <Compile Include="Information.cs" />
     <Compile Include="Notepad.cs" />
     <Compile Include="Form1.cs">
