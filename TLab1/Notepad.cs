@@ -7,6 +7,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
+using System.Threading;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -102,6 +104,19 @@ namespace TLab1
         {
             
             textBoxLineNumbers.Text = GetLineNumbers(textBox);
+        }
+        public void SetLanguage(string lang)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
+        }
+         public void ChangeLanguage(string lang, Form1 form1)
+        {
+            SetLanguage(lang);
+
+            var form = new Form1();
+            form.Show();
+            form1.Hide();
         }
         public string GetLineNumbers(RichTextBox textBox)
         {

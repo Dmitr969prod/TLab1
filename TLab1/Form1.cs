@@ -189,6 +189,19 @@ namespace TLab1
             notepad.ChangeSize(doc, (float)numericUpDown1.Value);
         }
 
+        private void текстToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void русскийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.ChangeLanguage("ru", this);
+        }
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notepad.ChangeLanguage("en", this);
+        }
     }
 }
