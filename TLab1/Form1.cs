@@ -14,7 +14,6 @@ namespace TLab1
 {
     public partial class Form1 : Form
     {
-        private Dictionary<TabPage, DocInfo> _documents = new Dictionary<TabPage, DocInfo>();
 
         private DocumentManager manager;
         private Notepad notepad;
@@ -25,12 +24,14 @@ namespace TLab1
         public Form1()
         {
             InitializeComponent();
+
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
             manager = new DocumentManager(tabControl1);
             notepad = new Notepad(manager);
+
         }
-        
-        
+
+
 
         private void FormIsClosing(object sender, FormClosingEventArgs e)
         {
@@ -48,6 +49,7 @@ namespace TLab1
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             notepad.CreateNew();
+
         }
 
         private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -80,7 +82,6 @@ namespace TLab1
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
 
             notepad.OpenFile();
         }
@@ -176,5 +177,18 @@ namespace TLab1
         {
             info.AboutInstructions();
         }
+
+        private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            info.AboutInstructions();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            var doc = manager.GetDocument(tabControl1.SelectedTab);
+            notepad.ChangeSize(doc, (float)numericUpDown1.Value);
+        }
+
+
     }
 }

@@ -14,13 +14,14 @@ namespace TLab1
         public DataGridView DataGrid { get; set; }
         public SplitContainer SplitContainer { get; set; }
         public TabPage TabPage { get; set; }
+        public TextBox TextBoxLineNumbers { get; set; }
         public bool IsModified { get; set; }
 
         private void TextBoxChanged(object sender, EventArgs e)
         {
             IsModified = true;
         }
-        public DocInfo(TabPage tab, RichTextBox textBox, DataGridView dataGrid, SplitContainer splitContainer)
+        public DocInfo(TabPage tab, RichTextBox textBox, DataGridView dataGrid, SplitContainer splitContainer, TextBox textBoxLineNumbers)
         {
             TabPage = tab;
             FileName = null;
@@ -29,6 +30,7 @@ namespace TLab1
             SplitContainer = splitContainer;
 
             textBox.TextChanged += TextBoxChanged;
+            TextBoxLineNumbers = textBoxLineNumbers;
         }
     }
 }

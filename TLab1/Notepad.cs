@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TLab1
 {
@@ -43,32 +45,76 @@ namespace TLab1
         public DocInfo CreateNew()
         {
 
-                var tabPage = new TabPage($"Новый документ{tabCounter++}");
+            var tabPage = new TabPage($"Новый документ{tabCounter++}");
 
-                var splitContainer = new SplitContainer
-                {
-                    Dock = DockStyle.Fill,
-                    Orientation = Orientation.Horizontal,
-                };
-                var textBox = new RichTextBox
-                {
-                    Dock = DockStyle.Fill
-                };
-                var dataGrid = new DataGridView
-                {
-                    Dock = DockStyle.Fill
-                };
-                splitContainer.Panel1.Controls.Add(textBox);
-                splitContainer.Panel2.Controls.Add(dataGrid);
-                tabPage.Controls.Add(splitContainer);
+            var splitContainer = new SplitContainer
+            {
+                Dock = DockStyle.Fill,
+                Orientation = Orientation.Horizontal,
+            };
+            var textBox = new RichTextBox
+            {
+                Dock = DockStyle.Fill
+                
+            };
+            var dataGrid = new DataGridView
+            {
+                Dock = DockStyle.Fill
+            };
+            var textBoxLineNumbers = new System.Windows.Forms.TextBox();
+            textBoxLineNumbers.Multiline = true;               
+            textBoxLineNumbers.ReadOnly = true;                
+            textBoxLineNumbers.ScrollBars = ScrollBars.None;   
+            textBoxLineNumbers.BackColor = Color.LightGray;    
+            textBoxLineNumbers.Width = 20;                    
+            textBoxLineNumbers.Font = textBox.Font;       
+            textBoxLineNumbers.Dock = DockStyle.Fill;          
+            textBoxLineNumbers.BorderStyle = BorderStyle.None; 
+            textBoxLineNumbers.TextAlign = HorizontalAlignment.Right;
 
-                var docInfo = new DocInfo(tabPage, textBox, dataGrid, splitContainer);
-                _documentManager.Register(tabPage, docInfo);
-                return docInfo;
+
+            var splitContainer1 = new SplitContainer
+            {
+                Dock = DockStyle.Fill,
+                Orientation = Orientation.Vertical,
+                IsSplitterFixed = true
+                
+            };
+            splitContainer.Panel1.Controls.Add(splitContainer1);
+            splitContainer1.Panel1.Controls.Add(textBoxLineNumbers);
+            splitContainer1.SplitterDistance = 20;
+            splitContainer1.FixedPanel = FixedPanel.Panel1;
+            splitContainer1.Panel2.Controls.Add(textBox);
+            splitContainer.Panel2.Controls.Add(dataGrid);
+            tabPage.Controls.Add(splitContainer);
+
+            
+
+            
+            var docInfo = new DocInfo(tabPage, textBox, dataGrid, splitContainer, textBoxLineNumbers);
+            _documentManager.Register(tabPage, docInfo);
+            textBox.VScroll += (s, e) => TextBox_VScroll(s, e, textBox, textBoxLineNumbers);
+            textBoxLineNumbers.Text = GetLineNumbers(textBox);
+            return docInfo;
         }
 
+        private void TextBox_VScroll(object sender, EventArgs e, RichTextBox textBox, System.Windows.Forms.TextBox textBoxLineNumbers)
+        {
+            
+            textBoxLineNumbers.Text = GetLineNumbers(textBox);
+        }
+        public string GetLineNumbers(RichTextBox textBox)
+        {
+            var lines = textBox.Lines;
+            if (lines.Length == 0)
+                return "1";
 
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i <= lines.Length; i++)
+                sb.AppendLine(i.ToString());
 
+            return sb.ToString();
+        }
         private void UpdateTabTitle(DocInfo docInfo)
         {
 
@@ -134,6 +180,12 @@ namespace TLab1
 
                 UpdateTabTitle(docInfo);
             }
+        }
+
+        public void ChangeSize(DocInfo docInfo, float value)
+        {
+            docInfo.TextBox.Font = new System.Drawing.Font(docInfo.TextBox.Font.FontFamily, value);
+            docInfo.DataGrid.Font = new System.Drawing.Font(docInfo.DataGrid.Font.FontFamily, value);
         }
         public void FileUndo(RichTextBox r)
         {
