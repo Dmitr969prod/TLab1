@@ -53,6 +53,7 @@ namespace TLab1
             {
                 var doc = notepad.CreateNew();
                 doc.FileName = file;
+                
                 doc.TextBox.Text = File.ReadAllText(file);
             }
         }

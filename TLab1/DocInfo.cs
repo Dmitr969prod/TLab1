@@ -28,7 +28,7 @@ namespace TLab1
             TextBox = textBox;
             DataGrid = dataGrid;
             SplitContainer = splitContainer;
-
+            //RuchTextBox sa = (R)tabpage.Controls.Find("name", true)[0];
             textBox.TextChanged += TextBoxChanged;
             TextBoxLineNumbers = textBoxLineNumbers;
         }

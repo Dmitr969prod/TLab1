@@ -49,5 +49,7 @@ namespace TLab1
             _documents.TryGetValue(tab, out docInfo);
             return docInfo;
         }
+
+        
     }
 }
