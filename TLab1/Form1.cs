@@ -12,13 +12,15 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace TLab1
 {
+
+
     public partial class Form1 : Form
     {
 
         private DocumentManager manager;
         private Notepad notepad;
         Information info = new Information();
-
+        
 
 
         public Form1()
