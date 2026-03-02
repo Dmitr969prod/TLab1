@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace TLab1
@@ -30,11 +31,31 @@ namespace TLab1
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
             manager = new DocumentManager(tabControl1);
             notepad = new Notepad(manager);
+            this.AllowDrop = true;
+            this.DragEnter += Form1_DragEnter;
+            this.DragDrop += Form1_DragDrop;
 
         }
 
 
+        private void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+        private void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
+            foreach (string file in files)
+            {
+                var doc = notepad.CreateNew();
+                doc.FileName = file;
+                doc.TextBox.Text = File.ReadAllText(file);
+            }
+        }
         private void FormIsClosing(object sender, FormClosingEventArgs e)
         {
             if (notepad.CommitChanges())
