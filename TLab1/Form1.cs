@@ -20,6 +20,7 @@ namespace TLab1
 
         private DocumentManager manager;
         private Notepad notepad;
+        private Scanner scanner = new Scanner();
         Information info = new Information();
         
 
@@ -27,6 +28,8 @@ namespace TLab1
         public Form1()
         {
             InitializeComponent();
+
+            scanner.Analyze("for (i in 0..9) ");
 
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
             manager = new DocumentManager(tabControl1);
