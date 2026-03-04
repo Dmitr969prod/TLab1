@@ -382,6 +382,7 @@
             this.toolStripButton10.Image = global::TLab1.Properties.Resources.free_icon_play_button_6611479;
             resources.ApplyResources(this.toolStripButton10, "toolStripButton10");
             this.toolStripButton10.Name = "toolStripButton10";
+            this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
             // 
             // toolStripButton11
             // 

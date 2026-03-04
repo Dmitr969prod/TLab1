@@ -230,5 +230,11 @@ namespace TLab1
         {
             notepad.ChangeLanguage("en", this);
         }
+
+        private void toolStripButton10_Click(object sender, EventArgs e)
+        {
+            var doc = manager.GetDocument(tabControl1.SelectedTab);
+            notepad.StartProgram(doc);
+        }
     }
 }

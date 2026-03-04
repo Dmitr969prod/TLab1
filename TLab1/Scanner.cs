@@ -8,11 +8,16 @@ namespace TLab1
 {
     internal class Scanner
     {
-        public void Analyze(string Text)
+        public List<string> Analyze(string Text)
         {
+            List<string> result = new List<string>();
             
 
             List<string> numbers = FindNumbers(Text);
+
+            result.Add("14|ключевое слово|int|Строка1, 1-3");
+            result.Add("17|идентификатор|i|Строка1, 5-5");
+            return result;
 
 /*            Console.WriteLine($"Анализируемый текст: {Text}");
             Console.WriteLine("Найденные числа:");
@@ -20,6 +25,7 @@ namespace TLab1
             {
                 Console.WriteLine(number);
             }*/
+            
 
         }
 

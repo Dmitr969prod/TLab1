@@ -18,6 +18,7 @@ namespace TLab1
     {
 
         private DocumentManager _documentManager;
+        private Scanner scanner = new Scanner();
 
         public Notepad(DocumentManager manager)
         {
@@ -136,6 +137,24 @@ namespace TLab1
             if (docInfo.TabPage != null)
             {
                 docInfo.TabPage.Text = Path.GetFileName(docInfo.FileName);
+            }
+        }
+
+        public void StartProgram(DocInfo docInfo)
+        {
+            List<string> information = scanner.Analyze(docInfo.TextBox.Text);
+            docInfo.DataGrid.Columns.Add("Code", "Условный код");
+            docInfo.DataGrid.Columns.Add("Type", "Тип лексемы");
+            docInfo.DataGrid.Columns.Add("Leks", "Лексема");
+            docInfo.DataGrid.Columns.Add("Place", "Местоположение");
+
+            foreach (string info in information)
+            {
+                string[] parts = info.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 4)
+                {
+                    docInfo.DataGrid.Rows.Add(parts[0], parts[1], parts[2], parts[3]);
+                }
             }
         }
 
