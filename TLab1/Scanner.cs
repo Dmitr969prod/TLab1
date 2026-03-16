@@ -211,8 +211,9 @@ namespace TLab1
                 
                 string operators = "+-*/=<>!&|.,:;(){}[]";
 
-                if (operators.Contains(c))
+                if (operators.Contains(c) && !operators.Contains(text[pos+1]))
                 {
+                    
                     tokens.Add(new Token
                     {
                         Type = TokenType.Operator,
@@ -228,7 +229,25 @@ namespace TLab1
                     continue;
                 }
 
-                
+                if (operators.Contains(c) && text[pos + 1] == '=')
+                {
+                    string lexeme = c.ToString() + text[pos + 1];
+                    col ++;
+                    tokens.Add(new Token
+                    {
+                        Type = TokenType.Operator,
+                        Value = lexeme,
+                        Line = line,
+                        StartPos = startCol,
+                        EndPos = col,
+                        AbsoluteIndex = startPos
+                    });
+
+                    pos += 2;
+                    
+                    continue;
+                }
+
                 tokens.Add(new Token
                 {
                     Type = TokenType.Error,
