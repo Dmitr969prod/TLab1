@@ -64,6 +64,9 @@ namespace TLab1
             {
                 Dock = DockStyle.Fill
             };
+            
+            dataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             var textBoxLineNumbers = new System.Windows.Forms.TextBox();
             textBoxLineNumbers.Multiline = true;               
             textBoxLineNumbers.ReadOnly = true;                
@@ -142,19 +145,24 @@ namespace TLab1
 
         public void StartProgram(DocInfo docInfo)
         {
-            List<string> information = scanner.Analyze(docInfo.TextBox.Text);
+            List<Token> tokens = scanner.Analyze(docInfo.TextBox.Text);
+
+            docInfo.DataGrid.Columns.Clear();
+            docInfo.DataGrid.Rows.Clear();
+
             docInfo.DataGrid.Columns.Add("Code", "Условный код");
             docInfo.DataGrid.Columns.Add("Type", "Тип лексемы");
             docInfo.DataGrid.Columns.Add("Leks", "Лексема");
             docInfo.DataGrid.Columns.Add("Place", "Местоположение");
 
-            foreach (string info in information)
+            foreach (Token token in tokens)
             {
-                string[] parts = info.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length == 4)
-                {
-                    docInfo.DataGrid.Rows.Add(parts[0], parts[1], parts[2], parts[3]);
-                }
+                docInfo.DataGrid.Rows.Add(
+                    token.Code,
+                    token.TypeName,
+                    token.Value,
+                    token.Location
+                );
             }
         }
 

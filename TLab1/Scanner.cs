@@ -6,50 +6,244 @@ using System.Threading.Tasks;
 
 namespace TLab1
 {
-    internal class Scanner
+    public class Scanner
     {
-        public List<string> Analyze(string Text)
+        private static HashSet<string> keywords = new HashSet<string>()
         {
-            List<string> result = new List<string>();
-            
+            "fun","val","var","if","else","when","while","for",
+            "return","class","object","interface","package",
+            "import","true","false","null"
+        };
 
-            List<string> numbers = FindNumbers(Text);
-
-            result.Add("14|ключевое слово|int|Строка1, 1-3");
-            result.Add("17|идентификатор|i|Строка1, 5-5");
-            return result;
-
-/*            Console.WriteLine($"Анализируемый текст: {Text}");
-            Console.WriteLine("Найденные числа:");
-            foreach (string number in numbers)
-            {
-                Console.WriteLine(number);
-            }*/
-            
-
-        }
-
-        public List<string> FindNumbers(string Text)
+        public List<Token> Analyze(string text)
         {
-            List<string> numbers = new List<string>();
-            string currentNumber = "";
-            
-            foreach (char c in Text)
+            var tokens = new List<Token>();
+
+            int pos = 0;
+            int line = 1;
+            int col = 1;
+
+            while (pos < text.Length)
             {
+                char c = text[pos];
+                int startCol = col;
+                int startPos = pos;
+
+                
+                if (c == '\n')
+                {
+                    line++;
+                    col = 1;
+                    pos++;
+                    continue;
+                }
+
+                
+                if (char.IsWhiteSpace(c))
+                {
+                    pos++;
+                    col++;
+                    continue;
+                }
+
+                
+                if (char.IsLetter(c) || c == '_')
+                {
+                    string lexeme = "";
+
+                    while (pos < text.Length &&
+                           (char.IsLetterOrDigit(text[pos]) || text[pos] == '_'))
+                    {
+                        lexeme += text[pos];
+                        pos++;
+                        col++;
+                    }
+
+                    TokenType type = keywords.Contains(lexeme)
+                        ? TokenType.Keyword
+                        : TokenType.Identifier;
+
+                    tokens.Add(new Token
+                    {
+                        Type = type,
+                        Value = lexeme,
+                        Line = line,
+                        StartPos = startCol,
+                        EndPos = col - 1,
+                        AbsoluteIndex = startPos
+                    });
+
+                    continue;
+                }
+
+                
                 if (char.IsDigit(c))
                 {
-                    currentNumber += c;
-                }
-                else
-                {
-                    if (currentNumber != "")
+                    string lexeme = "";
+                    bool isFloat = false;
+
+                    while (pos < text.Length && char.IsDigit(text[pos]))
                     {
-                        numbers.Add(currentNumber);
-                        currentNumber = "";
+                        lexeme += text[pos];
+                        pos++;
+                        col++;
+                    }
+
+                    if (pos < text.Length && text[pos] == '.')
+                    {
+                        isFloat = true;
+                        lexeme += '.';
+                        pos++;
+                        col++;
+
+                        while (pos < text.Length && char.IsDigit(text[pos]))
+                        {
+                            lexeme += text[pos];
+                            pos++;
+                            col++;
+                        }
+                    }
+
+                    tokens.Add(new Token
+                    {
+                        Type = isFloat ? TokenType.FloatLiteral : TokenType.IntLiteral,
+                        Value = lexeme,
+                        Line = line,
+                        StartPos = startCol,
+                        EndPos = col - 1,
+                        AbsoluteIndex = startPos
+                    });
+
+                    continue;
+                }
+
+               
+                if (c == '"')
+                {
+                    string lexeme = "";
+                    pos++; col++;
+
+                    while (pos < text.Length && text[pos] != '"')
+                    {
+                        lexeme += text[pos];
+                        pos++;
+                        col++;
+                    }
+
+                    pos++; col++;
+
+                    tokens.Add(new Token
+                    {
+                        Type = TokenType.StringLiteral,
+                        Value = lexeme,
+                        Line = line,
+                        StartPos = startCol,
+                        EndPos = col - 1,
+                        AbsoluteIndex = startPos
+                    });
+
+                    continue;
+                }
+
+                
+                if (c == '\'')
+                {
+                    string lexeme = "";
+                    pos++; col++;
+
+                    if (pos < text.Length)
+                    {
+                        lexeme += text[pos];
+                        pos++; col++;
+                    }
+
+                    if (pos < text.Length && text[pos] == '\'')
+                    {
+                        pos++; col++;
+
+                        tokens.Add(new Token
+                        {
+                            Type = TokenType.CharLiteral,
+                            Value = lexeme,
+                            Line = line,
+                            StartPos = startCol,
+                            EndPos = col - 1,
+                            AbsoluteIndex = startPos
+                        });
+                        continue;
                     }
                 }
+
+                if (c == '/' && pos + 1 < text.Length && text[pos + 1] == '/')
+                {
+                    while (pos < text.Length && text[pos] != '\n')
+                    {
+                        pos++;
+                        col++;
+                    }
+                    continue;
+                }
+
+               
+                if (c == '/' && pos + 1 < text.Length && text[pos + 1] == '*')
+                {
+                    pos += 2;
+                    col += 2;
+
+                    while (pos + 1 < text.Length &&
+                           !(text[pos] == '*' && text[pos + 1] == '/'))
+                    {
+                        if (text[pos] == '\n')
+                        {
+                            line++;
+                            col = 1;
+                        }
+                        else col++;
+
+                        pos++;
+                    }
+
+                    pos += 2;
+                    col += 2;
+                    continue;
+                }
+
+                
+                string operators = "+-*/=<>!&|.,:;(){}[]";
+
+                if (operators.Contains(c))
+                {
+                    tokens.Add(new Token
+                    {
+                        Type = TokenType.Operator,
+                        Value = c.ToString(),
+                        Line = line,
+                        StartPos = startCol,
+                        EndPos = col,
+                        AbsoluteIndex = startPos
+                    });
+
+                    pos++;
+                    col++;
+                    continue;
+                }
+
+                
+                tokens.Add(new Token
+                {
+                    Type = TokenType.Error,
+                    Value = c.ToString(),
+                    Line = line,
+                    StartPos = startCol,
+                    EndPos = col,
+                    AbsoluteIndex = startPos
+                });
+
+                pos++;
+                col++;
             }
-            return numbers;
+
+            return tokens;
         }
     }
 }
