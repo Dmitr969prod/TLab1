@@ -234,7 +234,8 @@ namespace TLab1
         private void toolStripButton10_Click(object sender, EventArgs e)
         {
             var doc = manager.GetDocument(tabControl1.SelectedTab);
-            notepad.StartProgram(doc);
+            notepad.StartProgram2(doc);
         }
     }
 }
+

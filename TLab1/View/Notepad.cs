@@ -166,6 +166,28 @@ namespace TLab1
             }
         }
 
+        public void StartProgram2(DocInfo docInfo)
+        {
+            List<Token> tokens = scanner.Analyze(docInfo.TextBox.Text);
+
+            docInfo.DataGrid.Columns.Clear();
+            docInfo.DataGrid.Rows.Clear();
+
+            docInfo.DataGrid.Columns.Add("Leks", "Неверный фрагмент");
+            docInfo.DataGrid.Columns.Add("Place", "Местоположение");
+            docInfo.DataGrid.Columns.Add("Code", "Описание");
+            
+
+            foreach (Token token in tokens)
+            {
+                docInfo.DataGrid.Rows.Add(
+                    token.Value,
+                    token.Location,
+                    token.Code
+                );
+            }
+        }
+
         public void SaveTab(DocInfo docInfo)
         {
 
