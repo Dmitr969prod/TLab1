@@ -74,6 +74,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parser\Analyzer.cs" />
+    <Compile Include="Parser\ParseError.cs" />
+    <Compile Include="Parser\Result.cs" />
     <Compile Include="View\DocInfo.cs" />
     <Compile Include="View\DocumentManager.cs" />
     <Compile Include="View\Information.cs" />
@@ -163,8 +166,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Parser\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
