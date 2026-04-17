@@ -158,16 +158,16 @@ for (i in 0..9){
 18)	 \<CUR_BRACKET\> -> } \<END\>
 19)	\<END\> -> ; 
 
-‒ VT = {a, b, ..., z, A, B, ..., Z, 0, 1, ...,9, +, -, /, *, {, }, (, ), ;, _}
-‒ VN = {\<CYCLE\>, \<BRACKET\>, \<NameVar\>, \<SPACE\>, \<RANGE\>, \<NUMBER\>,  \<NUM_RANGE\>, \<CUR_BRACKET\>, \<FUNC\>, \<END\> }.
-‒ letter -> 'a' | 'b' | ... | 'z' | 'A' | 'B' | ... | 'Z'
-‒ digit -> '0' | '1' | ... | '9'
+‒ VT = {a, b, ..., z, A, B, ..., Z, 0, 1, ...,9, +, -, /, *, {, }, (, ), ;, _}  
+‒ VN = {\<CYCLE\>, \<BRACKET\>, \<NameVar\>, \<SPACE\>, \<RANGE\>, \<NUMBER\>,  \<NUM_RANGE\>, \<CUR_BRACKET\>, \<FUNC\>, \<END\> }.  
+‒ letter -> 'a' | 'b' | ... | 'z' | 'A' | 'B' | ... | 'Z'  
+‒ digit -> '0' | '1' | ... | '9'  
 
 Согласно классификации Хомского, грамматика G[Z] является контекстно свободной. Правила относятся к классу праворекурсивных продукций (A → aB | a | ε).
 
 Метод анализа:
 
-<img width="670" height="586" alt="method_analysis drawio(5)" src="https://github.com/user-attachments/assets/98995b46-7cb0-4c0b-b96d-626d9f20aee1" />
+
 
 
 ## Диагностика и нейтрализация синтаксических ошибок:
