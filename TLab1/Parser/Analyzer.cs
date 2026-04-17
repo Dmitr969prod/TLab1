@@ -8,16 +8,18 @@ namespace TLab1.Parser
 {
     public class Analyzer
     {
-        Result _result;
-        public Analyzer Parse(List<Token> tokens)
+        public Result _result;
+        public Result Parse(List<Token> tokens)
         {
             _result = new Result();
             if(tokens == null || tokens.Count == 0)
             {
-               
+               AddErrorsFromEmptyInput("Входная последовательность токенов пуста.");
+                return _result;
             }
-            // Реализуйте синтаксический анализ здесь
-            return this;
+            return _result;
+            
+            
         }
 
         private void AddErrorsFromEmptyInput(string message)

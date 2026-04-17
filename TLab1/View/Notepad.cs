@@ -11,6 +11,8 @@ using System.Globalization;
 using System.Threading;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using TLab1.Parser;
+using System.Runtime.Remoting;
 
 namespace TLab1
 {
@@ -168,22 +170,25 @@ namespace TLab1
 
         public void StartProgram2(DocInfo docInfo)
         {
-            List<Token> tokens = scanner.Analyze(docInfo.TextBox.Text);
+            List<Token> ScanResult = scanner.Analyze(docInfo.TextBox.Text);
 
             docInfo.DataGrid.Columns.Clear();
             docInfo.DataGrid.Rows.Clear();
+
+            var parser = new Analyzer();
+            var tokens = parser.Parse(ScanResult);
 
             docInfo.DataGrid.Columns.Add("Leks", "Неверный фрагмент");
             docInfo.DataGrid.Columns.Add("Place", "Местоположение");
             docInfo.DataGrid.Columns.Add("Code", "Описание");
             
 
-            foreach (Token token in tokens)
+            foreach (ParseError token in tokens.Errors)
             {
                 docInfo.DataGrid.Rows.Add(
-                    token.Value,
-                    token.Location,
-                    token.Code
+                    token.InvalidFragment,
+                    token.LocationText,
+                    token.Message
                 );
             }
         }
