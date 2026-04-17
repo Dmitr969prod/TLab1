@@ -9,19 +9,37 @@ namespace TLab1.Parser
     public class Analyzer
     {
         public Result _result;
+        private TokenStream _stream;
         public Result Parse(List<Token> tokens)
         {
+            _stream = new TokenStream(tokens);
             _result = new Result();
+
             if(tokens == null || tokens.Count == 0)
             {
                AddErrorsFromEmptyInput("Входная последовательность токенов пуста.");
                 return _result;
+            }
+
+            while (!_stream.IsAtEnd)
+            {
+                int startPosition = _stream.Position;
+
+                ParseDeclaration();
+
+                _stream.Match(TokenType.Separator);
+
+                if(!_stream.IsAtEnd &&  _stream.Position == startPosition)
+                {
+                    _stream.Advance();
+                }
             }
             return _result;
             
             
         }
 
+        private void ParseDeclaration() { }
         private void AddErrorsFromEmptyInput(string message)
         {
             _result.Errors.Add(new ParseError

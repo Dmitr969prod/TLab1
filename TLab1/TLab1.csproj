@@ -77,6 +77,7 @@
     <Compile Include="Parser\Analyzer.cs" />
     <Compile Include="Parser\ParseError.cs" />
     <Compile Include="Parser\Result.cs" />
+    <Compile Include="Parser\TokenStream.cs" />
     <Compile Include="View\DocInfo.cs" />
     <Compile Include="View\DocumentManager.cs" />
     <Compile Include="View\Information.cs" />
