@@ -184,14 +184,5 @@ for (i in 0..9){
 Для автоматной грамматики предлагается свести алгоритм нейтрализации к последовательному удалению следующего символа во входной цепочке до тех пор, пока следующий символ не окажется одним из допустимых в данный момент разбора.
 
 ## Тестовые примеры:
-<img width="929" height="744" alt="изображение" src="https://github.com/user-attachments/assets/1abb9617-1798-4c6c-acce-4c670c336d6d" />
 
-<img width="936" height="758" alt="изображение" src="https://github.com/user-attachments/assets/fa8916d2-e69e-46e6-a600-672993bf2a52" />
 
-<img width="936" height="758" alt="изображение" src="https://github.com/user-attachments/assets/be233155-cf61-4809-8815-650789b60b74" />
-
-<img width="936" height="758" alt="изображение" src="https://github.com/user-attachments/assets/210aac33-8438-4500-9974-4a18ef915ff4" />
-
-<img width="936" height="758" alt="изображение" src="https://github.com/user-attachments/assets/34b1e451-b7ee-4a50-976d-179c4680b7e7" />
-
-<img width="936" height="758" alt="изображение" src="https://github.com/user-attachments/assets/7224a2c4-d471-42fc-9072-7b9014137210" />
