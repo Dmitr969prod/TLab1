@@ -27,7 +27,7 @@ namespace TLab1.Parser
 
                 ParseDeclaration();
 
-                _stream.Match(TokenType.Separator);
+                
 
                 if(!_stream.IsAtEnd &&  _stream.Position == startPosition)
                 {
@@ -42,7 +42,7 @@ namespace TLab1.Parser
         private void ParseDeclaration() 
         {
             if (!Expect(TokenType.For, "Ожидалось ключевое слово for"))
-                SkipTo(TokenType.LeftParen, TokenType.Identifier, TokenType.In);
+                SkipTo(TokenType.LeftParen, TokenType.Identifier, TokenType.In, TokenType.For);
             if (!Expect(TokenType.LeftParen, "Ожидалась левая открывающая скобка"))
                 SkipTo(TokenType.Identifier, TokenType.In);
             if(!Expect(TokenType.Identifier, "Ожидалось имя переменной"))
@@ -80,14 +80,16 @@ namespace TLab1.Parser
             while (!_stream.IsAtEnd && !_stream.Check(TokenType.RightBrace))
             {
                 ParsePrintln();
-                _stream.Match(TokenType.Semicolon);
+                
             }
             if (!Expect(TokenType.RightBrace, "Ожидался символ }"))
                 SkipTo(TokenType.Semicolon);
         }
         private void ParsePrintln()
         {
-
+            _stream.Advance();
+            /*if(!Expect(TokenType.Println, "Ожидалось ключевое слово println"))
+                SkipTo(TokenType.StringLiteral, TokenType.Semicolon);*/
         }
         private bool Expect(TokenType code, string message)
         {
@@ -127,17 +129,16 @@ namespace TLab1.Parser
 
         private void SkipTo(params TokenType[] syncTokens)
         {
-            HashSet<int> syncSet = new HashSet<int>();
+            if (_stream.IsAtEnd)
+                return;
 
-            foreach (TokenType token in syncTokens)
-                syncSet.Add((int)token);
+            var syncSet = new HashSet<TokenType>(syncTokens);
 
             while (!_stream.IsAtEnd)
             {
-                int currentCode = _stream.Current.Code; 
-
-                if (syncSet.Contains(currentCode))
-                    break;
+                // Если текущий токен — один из синхронизирующих, остановиться
+                if (syncSet.Contains(_stream.Current.Type))
+                    return;
 
                 _stream.Advance();
             }

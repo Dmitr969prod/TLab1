@@ -71,22 +71,18 @@ namespace TLab1.Parser
                 _position++;
         }
 
-        public bool Check(TokenType type)
+        public bool Check(TokenType code)
         {
-            if (IsAtEnd)
-                return false;
-
-            return _tokens[_position].Type == type;
+            return !IsAtEnd && Current.Code == (int)code;
         }
 
-        public bool Match(TokenType type)
+        public bool Match(TokenType code)
         {
-            if (Check(type))
-            {
-                Advance();
-                return true;
-            }
-            return false;
+            if (!Check(code))
+                return false;
+
+            Advance();
+            return true;
         }
     }
 }
