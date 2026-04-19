@@ -26,6 +26,35 @@ namespace TLab1.Parser
                 AbsoluteIndex = 0
             };
         }
+
+        public Token Current
+        {
+            get
+            {
+                if (_tokens.Count == 0)
+                    return _fallbackToken;
+
+                if (IsAtEnd)
+                    return _tokens[_tokens.Count - 1];
+
+                return _tokens[_position];
+            }
+        }
+
+        public Token Previous
+        {
+            get
+            {
+                if (_tokens.Count == 0)
+                    return _fallbackToken;
+
+                if (_position <= 0)
+                    return _tokens[0];
+
+                return _tokens[_position - 1];
+            }
+        }
+
         public bool IsAtEnd
         {
             get { return _position >= _tokens.Count; }
