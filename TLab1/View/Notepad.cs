@@ -185,11 +185,26 @@ namespace TLab1
 
             foreach (ParseError token in tokens.Errors)
             {
-                docInfo.DataGrid.Rows.Add(
+                int rowIndex = docInfo.DataGrid.Rows.Add(
                     token.InvalidFragment,
                     token.LocationText,
                     token.Message
                 );
+                docInfo.DataGrid.Rows[rowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                docInfo.DataGrid.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Black;
+            }
+            docInfo.DataGrid.Rows.Add(
+    "ИТОГО:",
+    "",
+    $"Количество ошибок: {tokens.ErrorCount.ToString()}"
+);
+
+            
+            if (docInfo.DataGrid.Rows.Count > 0)
+            {
+                int lastRowIndex = docInfo.DataGrid.Rows.Count - 2;
+                docInfo.DataGrid.Rows[lastRowIndex].DefaultCellStyle.BackColor = Color.LightYellow;
+                docInfo.DataGrid.Rows[lastRowIndex].DefaultCellStyle.Font = new Font(docInfo.DataGrid.Font, FontStyle.Bold);
             }
         }
 

@@ -14,5 +14,9 @@ namespace TLab1.Parser
             Errors = new List<ParseError>();
         }
         public List<ParseError> Errors { get; private set; }
+        public int ErrorCount
+        {
+            get { return Errors.Count; }
+        }
     }
 }
