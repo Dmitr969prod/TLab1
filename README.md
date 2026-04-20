@@ -138,25 +138,25 @@ for (i in 0..9){
 };
 
 ## Грамматика:
-1)	\<CYCLE\>  -> for \<BRACKET\> 
-2)	\<BRACKET\> ->  ( \<BeginVariable\>
-3)	\<BeginVariable\> -> letter \<Variable\> | "_" \<Variable\>
-4)	\<Variable\> -> letter \<Variable\> | "_" \<Variable\> | digit \<Variable\> | " " \<SPACE\>
-5)	\<SPACE\> -> “ ”  \<RANGE\>
-6)	\<RANGE\> -> in \<SPACE\>
-7)	\<SPACE\> -> “ ” \<NUMBER\>
+1)	\<CYCLE\>  -> 'for' \<BRACKET\> 
+2)	\<BRACKET\> ->  '(' \<BeginVariable\>
+3)	\<BeginVariable\> -> letter \<Variable\> | '_' \<Variable\>
+4)	\<Variable\> -> letter \<Variable\> | '_' \<Variable\> | digit \<Variable\> | ' ' \<SPACE\>
+5)	\<SPACE\> -> ' '  \<RANGE\>
+6)	\<RANGE\> -> 'in' \<SPACE\>
+7)	\<SPACE\> -> ' ' \<NUMBER\>
 8)	\<NUMBER\> -> digit \<NUM_RANGE\>
-9)	\<NUM_RANGE\> -> .. \<NUMBER\>
+9)	\<NUM_RANGE\> -> '..' \<NUMBER\>
 10)	\<NUMBER\> -> digit \<BRACKET\>
 11)	\<BRACKET\> -> ) \<CUR_BRACKET\>
-12)	\<CUR_BRACKET\> -> { \<FUNC\>
-13)	\<FUNC\> -> println \<BRACKET\>
-14)	\<BRACKET\> -> ( \<BeginVariable\>
-15)	 \<BeginVariable\> -> letter \<Variable\> | "_" \<Variable\>
-16)	 \<Variable\> -> letter \<Variable\> | "_" \<Variable\> | digit \<Variable\> | " " \<SPACE\>
-17)	 \<BRACKET\> -> ) \<CUR_BRACKET\>
-18)	 \<CUR_BRACKET\> -> } \<END\>
-19)	\<END\> -> ; 
+12)	\<CUR_BRACKET\> -> '{' \<FUNC\>
+13)	\<FUNC\> -> 'println' \<BRACKET\>
+14)	\<BRACKET\> -> '(' \<BeginVariable\>
+15)	 \<BeginVariable\> -> letter \<Variable\> | '_' \<Variable\>
+16)	 \<Variable\> -> letter \<Variable\> | '_' \<Variable\> | digit \<Variable\> | ' ' \<SPACE\>
+17)	 \<BRACKET\> -> ')' \<CUR_BRACKET\>
+18)	 \<CUR_BRACKET\> -> '}' \<END\>
+19)	\<END\> -> ';' 
 
 ‒ VT = {a, b, ..., z, A, B, ..., Z, 0, 1, ...,9, +, -, /, *, {, }, (, ), ;, _}  
 ‒ VN = {\<CYCLE\>, \<BRACKET\>, \<NameVar\>, \<SPACE\>, \<RANGE\>, \<NUMBER\>,  \<NUM_RANGE\>, \<CUR_BRACKET\>, \<FUNC\>, \<END\> }.  
