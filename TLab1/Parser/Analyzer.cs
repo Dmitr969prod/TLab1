@@ -50,7 +50,7 @@ namespace TLab1.Parser
             _suppressErrors = false;
             if (!Expect(TokenType.For, "Ожидалось ключевое слово for"))
             {
-                SkipTo( TokenType.For);
+                SkipTo( TokenType.For, TokenType.Identifier, TokenType.In, TokenType.LeftParen);
                 return;
             }
                 
