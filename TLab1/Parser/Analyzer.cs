@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,7 +51,8 @@ namespace TLab1.Parser
             _suppressErrors = false;
             if (!Expect(TokenType.For, "Ожидалось ключевое слово for"))
             {
-                SkipTo( TokenType.For, TokenType.Identifier, TokenType.In, TokenType.LeftParen);
+                SkipTo(TokenType.For, TokenType.Semicolon);
+                _stream.Match(TokenType.Semicolon);
                 return;
             }
                 
