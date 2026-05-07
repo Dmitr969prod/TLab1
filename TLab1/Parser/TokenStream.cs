@@ -26,6 +26,20 @@ namespace TLab1.Parser
                 AbsoluteIndex = 0
             };
         }
+        public Token Peek(int offset)
+        {
+            int index = _position + offset;
+
+            if (index < 0 || index >= _tokens.Count)
+                return _fallbackToken;
+
+            return _tokens[index];
+        }
+
+        public bool CheckNext(TokenType code)
+        {
+            return Peek(1).Type == code;
+        }
 
         public Token Current
         {

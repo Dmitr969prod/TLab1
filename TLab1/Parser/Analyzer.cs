@@ -17,109 +17,261 @@ namespace TLab1.Parser
             _stream = new TokenStream(tokens);
             _result = new Result();
 
-            
 
-            if(tokens == null || tokens.Count == 0)
+
+            if (tokens == null || tokens.Count == 0)
             {
-               AddErrorsFromEmptyInput("Входная последовательность токенов пуста.");
+                AddErrorsFromEmptyInput("Входная последовательность токенов пуста.");
                 return _result;
             }
 
             while (!_stream.IsAtEnd)
             {
+                
                 int startPosition = _stream.Position;
 
                 ParseDeclaration();
 
-                
 
-                if(!_stream.IsAtEnd &&  _stream.Position == startPosition)
+
+                if (!_stream.IsAtEnd && _stream.Position == startPosition)
                 {
                     _stream.Advance();
                 }
             }
             return _result;
-            
-            
+
+
         }
         private bool IsUnexpectedEnd()
         {
             return _stream.IsAtEnd;
         }
-        private void ParseDeclaration() 
+        private void ParseDeclaration()
         {
             _suppressErrors = false;
-            if (!Expect(TokenType.For, "Ожидалось ключевое слово for"))
+
+            bool hasFor = Expect(TokenType.For, "Ожидалось ключевое слово for");
+
+            if (!hasFor)
             {
-                SkipTo(TokenType.For, TokenType.Semicolon);
-                _stream.Match(TokenType.Semicolon);
-                return;
-            }
                 
+                SkipTo(TokenType.LeftParen);
+                _suppressErrors = false;
+            }
+
+
             if (!Expect(TokenType.LeftParen, "Ожидалась левая открывающая скобка"))
-                SkipTo(TokenType.Identifier, TokenType.In, TokenType.LeftParen);
-            if(!Expect(TokenType.Identifier, "Ожидалось имя переменной"))
-                SkipTo(TokenType.In, TokenType.RightParen);
+            {
+                
+                _suppressErrors = false;
+            }
+
+            if (!Expect(TokenType.Identifier, "Ожидалось имя переменной"))
+            {
+                SkipTo(TokenType.In, TokenType.IntLiteral, TokenType.Range, TokenType.RightParen);
+                _suppressErrors = false;
+            }
+
             if (!Expect(TokenType.In, "Ожидалось ключевое слово in"))
-                SkipTo(TokenType.RightParen, TokenType.IntLiteral, TokenType.Range);
+            {
+                SkipTo(TokenType.IntLiteral, TokenType.Range, TokenType.RightParen);
+                _suppressErrors = false;
+            }
 
             ParseRangeExpression();
 
             if (!Expect(TokenType.RightParen, "Ожидалась правая закрывающая скобка"))
-                    SkipTo(TokenType.LeftBrace);
+                SkipTo(TokenType.LeftBrace, TokenType.Println);
 
             ParseBlock();
 
-            if(!Expect(TokenType.Semicolon, "Ожидался символ ; в конце объявления"))
+            _suppressErrors = false;
+
+            if (!Expect(TokenType.Semicolon, "Ожидался символ ; в конце объявления"))
             {
                 SkipTo(TokenType.For);
                 _stream.Match(TokenType.Semicolon);
             }
         }
-        
+
         private void ParseRangeExpression()
         {
-            if (!Expect(TokenType.IntLiteral, "Ожидалось число"))
-                SkipTo(TokenType.Range, TokenType.RightParen, TokenType.IntLiteral);
-            if (!Expect(TokenType.Range, "Ожидался оператор .."))
-                SkipTo(TokenType.IntLiteral, TokenType.RightParen);
-            if (!Expect(TokenType.IntLiteral, "Ожидалось число после .."))
-                SkipTo(TokenType.LeftBrace, TokenType.Println, TokenType.Semicolon, TokenType.RightParen);
+            
+            if (_stream.Check(TokenType.Range))
+            {
+                Token token = _stream.Current;
+
+                _result.Errors.Add(new ParseError
+                {
+                    InvalidFragment = string.Empty,
+                    Line = token.Line,
+                    StartColumn = Math.Max(1, token.StartPos - 1),
+                    EndColumn = Math.Max(1, token.StartPos - 1),
+                    AbsoluteIndex = Math.Max(0, token.AbsoluteIndex - 1),
+                    Message = "Ожидалось число"
+                });
+            }
+            else if (_stream.Current.Type == TokenType.Error)
+            {
+                AddError("Ожидалось число (обнаружен недопустимый символ)");
+                _stream.Advance();
+            }
+            else
+            {
+                Expect(TokenType.IntLiteral, "Ожидалось число");
+            }
+
+            
+            Expect(TokenType.Range, "Ожидался оператор ..");
+
+           
+            if (_stream.Current.Type == TokenType.Error)
+            {
+                AddError("Ожидалось число после .. (обнаружен недопустимый символ)");
+                _stream.Advance();
+            }
+            else
+            {
+                Expect(TokenType.IntLiteral, "Ожидалось число после ..");
+            }
         }
         private void ParseBlock()
         {
             if (!Expect(TokenType.LeftBrace, "Ожидался символ {"))
-                SkipTo(TokenType.RightBrace, TokenType.Semicolon);
+            {
+                _suppressErrors = false;
+
+                
+                if (_stream.Check(TokenType.LeftBrace))
+                {
+                    _stream.Advance();
+                }
+                else
+                {
+                    if (_stream.Check(TokenType.Semicolon) || _stream.Check(TokenType.RightBrace))
+                        return;
+                }
+            }
+
             while (!_stream.IsAtEnd && !_stream.Check(TokenType.RightBrace))
             {
+                int start = _stream.Position;
+
                 ParsePrintln();
-                
+
+                if (_stream.Position == start)
+                    _stream.Advance();
             }
+
+            while (!_stream.IsAtEnd &&
+       !_stream.Check(TokenType.RightBrace) &&
+       !_stream.Check(TokenType.Semicolon))
+            {
+                int start = _stream.Position;
+
+                ParsePrintln();
+
+                if (_stream.Position == start)
+                    _stream.Advance();
+            }
+
+            if (_stream.Check(TokenType.Semicolon))
+            {
+                _suppressErrors = false;
+                return;
+            }
+
             if (!Expect(TokenType.RightBrace, "Ожидался символ }"))
+            {
                 SkipTo(TokenType.Semicolon);
+                _suppressErrors = false;
+            }
         }
         private void ParsePrintln()
         {
-            if (!Expect(TokenType.Println, "Ожидалось ключевое слово println"))
-                SkipTo(TokenType.StringLiteral, TokenType.Semicolon);
-            if (!Expect(TokenType.LeftParen, "Ожидалась левая открывающая скобка"))
-                SkipTo(TokenType.Identifier, TokenType.RightBrace, TokenType.Semicolon, TokenType.RightParen);
-            if (!Expect(TokenType.Identifier, "Ожидалось имя переменной"))
-                SkipTo(TokenType.Semicolon, TokenType.RightBrace, TokenType.RightParen);
-            if (!Expect(TokenType.RightParen, "Ожидалась правая закрывающая скобка"))
-                SkipTo(TokenType.Semicolon, TokenType.RightBrace, TokenType.RightParen);
+            if (!_stream.Check(TokenType.Println))
+            {
+                AddError("Ожидалось ключевое слово println");
 
+               
+                if (_stream.Check(TokenType.Identifier) && _stream.CheckNext(TokenType.LeftParen))
+                {
+                    _stream.Advance(); 
+                    _suppressErrors = false;
+                }
+                else
+                {
+                    SkipTo(TokenType.Semicolon, TokenType.RightBrace);
+
+                    if (_stream.Check(TokenType.Semicolon))
+                        _stream.Advance();
+
+                    return;
+                }
+            }
+            else
+            {
+                _stream.Advance();
+                _suppressErrors = false;
+            }
+
+            if (!Expect(TokenType.LeftParen, "Ожидалась '('"))
+            {
+                SkipTo(TokenType.RightParen, TokenType.Semicolon, TokenType.RightBrace);
+
+                if (_stream.Check(TokenType.RightParen))
+                    _stream.Advance();
+
+                return;
+            }
+
+            if (!Expect(TokenType.Identifier, "Ожидалось имя переменной"))
+            {
+                SkipTo(TokenType.RightParen, TokenType.Semicolon, TokenType.RightBrace);
+                _suppressErrors = false;
+
+                if (_stream.Check(TokenType.RightParen))
+                {
+                    _stream.Advance();
+                    return;
+                }
+
+                
+            }
+
+            if (!Expect(TokenType.RightParen, "Ожидалась ')'"))
+            {
+                SkipTo(TokenType.Semicolon, TokenType.RightBrace);
+
+                
+                _suppressErrors = false;
+                return;
+            }
         }
         private bool Expect(TokenType code, string message)
         {
-            if (_stream.Match(code))
-                return true;
+            
+            if (_stream.Current.Type == TokenType.Error)
+            {
+                AddError($"{message} (обнаружен недопустимый фрагмент: '{_stream.Current.Value}')");
+                _stream.Advance();
+                _suppressErrors = true;
+                return false;
+            }
 
+           
+            if (_stream.Match(code))
+            {
+                _suppressErrors = false; 
+                return true;
+            }
+
+            
             if (!_suppressErrors)
             {
                 AddError(message);
-                if(IsUnexpectedEnd())
-               _suppressErrors = true;
+                _suppressErrors = true; 
             }
             return false;
         }
@@ -141,19 +293,16 @@ namespace TLab1.Parser
 
         private void SkipTo(params TokenType[] syncTokens)
         {
-            if (_stream.IsAtEnd)
-                return;
+            if (_stream.IsAtEnd) return;
 
             var syncSet = new HashSet<TokenType>(syncTokens);
 
-            while (!_stream.IsAtEnd)
+            while (!_stream.IsAtEnd && !syncSet.Contains(_stream.Current.Type))
             {
-                
-                if (syncSet.Contains(_stream.Current.Type))
-                    return;
-
                 _stream.Advance();
             }
+
+            _suppressErrors = false; 
         }
 
         private void AddErrorsFromEmptyInput(string message)
@@ -170,3 +319,7 @@ namespace TLab1.Parser
         }
     }
 }
+
+
+
+
