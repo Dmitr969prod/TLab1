@@ -11,6 +11,8 @@ using System.Globalization;
 using System.Threading;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using TLab1.Parser;
+using System.Runtime.Remoting;
 
 namespace TLab1
 {
@@ -168,23 +170,41 @@ namespace TLab1
 
         public void StartProgram2(DocInfo docInfo)
         {
-            List<Token> tokens = scanner.Analyze(docInfo.TextBox.Text);
+            List<Token> ScanResult = scanner.Analyze(docInfo.TextBox.Text);
 
             docInfo.DataGrid.Columns.Clear();
             docInfo.DataGrid.Rows.Clear();
+
+            var parser = new Analyzer();
+            var tokens = parser.Parse(ScanResult);
 
             docInfo.DataGrid.Columns.Add("Leks", "Неверный фрагмент");
             docInfo.DataGrid.Columns.Add("Place", "Местоположение");
             docInfo.DataGrid.Columns.Add("Code", "Описание");
             
 
-            foreach (Token token in tokens)
+            foreach (ParseError token in tokens.Errors)
             {
-                docInfo.DataGrid.Rows.Add(
-                    token.Value,
-                    token.Location,
-                    token.Code
+                int rowIndex = docInfo.DataGrid.Rows.Add(
+                    token.InvalidFragment,
+                    token.LocationText,
+                    token.Message
                 );
+                docInfo.DataGrid.Rows[rowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                docInfo.DataGrid.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Black;
+            }
+            docInfo.DataGrid.Rows.Add(
+    "ИТОГО:",
+    "",
+    $"Количество ошибок: {tokens.ErrorCount.ToString()}"
+);
+
+            
+            if (docInfo.DataGrid.Rows.Count > 0)
+            {
+                int lastRowIndex = docInfo.DataGrid.Rows.Count - 2;
+                docInfo.DataGrid.Rows[lastRowIndex].DefaultCellStyle.BackColor = Color.LightYellow;
+                docInfo.DataGrid.Rows[lastRowIndex].DefaultCellStyle.Font = new Font(docInfo.DataGrid.Font, FontStyle.Bold);
             }
         }
 

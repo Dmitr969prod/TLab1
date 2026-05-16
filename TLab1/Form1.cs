@@ -236,6 +236,11 @@ namespace TLab1
             var doc = manager.GetDocument(tabControl1.SelectedTab);
             notepad.StartProgram2(doc);
         }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

@@ -7,6 +7,9 @@ public enum TokenType
 
     // КЛЮЧЕВЫЕ СЛОВА
     Keyword = 11,
+    For = 12,
+    In = 13,
+    Println = 14,
 
     // КОНСТАНТЫ
     IntLiteral = 20,
@@ -16,9 +19,16 @@ public enum TokenType
 
     // ОПЕРАТОРЫ
     Operator = 40,
+    Assign = 41, // =
+    Range = 42,  // ..
 
     // РАЗДЕЛИТЕЛИ
     Separator = 50,
+    LeftParen = 51,   // (
+    RightParen = 52,  // )
+    LeftBrace = 53,   // {
+    RightBrace = 54,  // }
+    Semicolon = 55,    // ;
 
     // ОШИБКИ
     Error = 99
