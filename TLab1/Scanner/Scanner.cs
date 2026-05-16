@@ -86,6 +86,10 @@ namespace TLab1
                     {
                         type = IsOnlyDigits(lexeme) ? TokenType.IntLiteral : TokenType.Error;
                     }
+                    else if (!IsOnlyLettersOrDigits(lexeme))
+                    {
+                        type = TokenType.Error;
+                    }
                     else
                     {
                         switch (lexeme)
@@ -134,6 +138,16 @@ namespace TLab1
                 case ';': return TokenType.Semicolon;
                 default: return TokenType.Error;
             }
+        }
+        private bool IsOnlyLettersOrDigits(string s)
+        {
+            foreach (char c in s)
+            {
+                if (!char.IsLetterOrDigit(c))
+                    return false;
+            }
+
+            return true;
         }
 
         private bool IsOnlyDigits(string s)

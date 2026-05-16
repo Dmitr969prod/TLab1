@@ -12,6 +12,7 @@ namespace TLab1.Parser
         public Result _result;
         private TokenStream _stream;
         private bool _suppressErrors;
+        private bool _blockAborted;
 
         public Result Parse(List<Token> tokens)
         {
@@ -44,10 +45,7 @@ namespace TLab1.Parser
 
 
         }
-        private bool IsUnexpectedEnd()
-        {
-            return _stream.IsAtEnd;
-        }
+
         private void ParseDeclaration()
         {
             _suppressErrors = false;
@@ -98,8 +96,14 @@ namespace TLab1.Parser
                 SkipTo(TokenType.LeftBrace, TokenType.Println);
 
             ParseBlock();
-            if (_stream.IsAtEnd)
+            if (_blockAborted)
                 return;
+            if (_stream.Check(TokenType.Semicolon))
+            {
+                _stream.Advance();
+                return;
+            }
+
             _suppressErrors = false;
 
             if (!Expect(TokenType.Semicolon, "Ожидался символ ; в конце объявления"))
@@ -112,24 +116,14 @@ namespace TLab1.Parser
         private void ParseRangeExpression()
         {
             
-            
             if (_stream.Current.Type == TokenType.Error)
             {
-                Token token = _stream.Current;
-
-                if (!string.IsNullOrEmpty(token.Value) && char.IsDigit(token.Value[0]))
-                {
-                    AddError("Ожидался оператор ..");
-                }
-                else
-                {
-                    AddError("Ожидалось число");
-                }
-
+                AddError("Ожидалось число");
                 _stream.Advance();
-                SkipTo(TokenType.RightParen);
+
+                
+                SkipTo(TokenType.Range, TokenType.RightParen);
                 _suppressErrors = false;
-                return;
             }
             else if (!Expect(TokenType.IntLiteral, "Ожидалось число"))
             {
@@ -140,27 +134,17 @@ namespace TLab1.Parser
             
             if (!Expect(TokenType.Range, "Ожидался оператор .."))
             {
-                
                 SkipTo(TokenType.RightParen);
                 _suppressErrors = false;
                 return;
             }
 
             
-            
             if (_stream.Current.Type == TokenType.Error)
             {
-                
-                if (_stream.Current.Value == ".")
-                {
-                    AddError("Ожидался оператор ..");
-                }
-                else
-                {
-                    AddError("Ожидалось число после ..");
-                }
-
+                AddError("Ожидалось число после ..");
                 _stream.Advance();
+
                 SkipTo(TokenType.RightParen);
                 _suppressErrors = false;
                 return;
@@ -174,7 +158,8 @@ namespace TLab1.Parser
         }
         private void ParseBlock()
         {
-            
+            _blockAborted = false;
+
             if (!Expect(TokenType.LeftBrace, "Ожидался символ {"))
             {
                 _suppressErrors = false;
@@ -185,17 +170,16 @@ namespace TLab1.Parser
                 }
                 else if (_stream.Check(TokenType.Semicolon))
                 {
-                    _stream.Advance(); 
+                    _stream.Advance();
                     _suppressErrors = false;
+                    _blockAborted = true;
                     return;
                 }
                 else if (_stream.Check(TokenType.Println))
                 {
-                    
                 }
                 else if (_stream.Check(TokenType.Identifier) && _stream.CheckNext(TokenType.LeftParen))
                 {
-                    
                 }
                 else
                 {
@@ -205,17 +189,13 @@ namespace TLab1.Parser
                 }
             }
 
-            while (!_stream.IsAtEnd && !_stream.Check(TokenType.RightBrace))
+            while (!_stream.IsAtEnd &&
+                   !_stream.Check(TokenType.RightBrace) &&
+                   !_stream.Check(TokenType.Semicolon))
             {
                 int start = _stream.Position;
 
                 ParsePrintln();
-
-                if (_stream.Check(TokenType.Semicolon))
-                {
-                    _stream.Advance();
-                    continue;
-                }
 
                 if (_stream.Position == start)
                     _stream.Advance();
@@ -223,20 +203,25 @@ namespace TLab1.Parser
 
             if (!Expect(TokenType.RightBrace, "Ожидался символ }"))
             {
-                SkipTo(TokenType.Semicolon);
+                if (!_stream.Check(TokenType.Semicolon))
+                    SkipTo(TokenType.Semicolon);
+
                 _suppressErrors = false;
             }
         }
         private void ParsePrintln()
         {
+            
             if (!_stream.Check(TokenType.Println))
             {
                 AddError("Ожидалось ключевое слово println");
 
-               
-                if (_stream.Check(TokenType.Identifier) && _stream.CheckNext(TokenType.LeftParen))
+                
+                if ((_stream.Check(TokenType.Identifier) ||
+                     _stream.Check(TokenType.Error)) &&
+                    _stream.CheckNext(TokenType.LeftParen))
                 {
-                    _stream.Advance(); 
+                    _stream.Advance();
                     _suppressErrors = false;
                 }
                 else
@@ -255,6 +240,7 @@ namespace TLab1.Parser
                 _suppressErrors = false;
             }
 
+            
             if (!Expect(TokenType.LeftParen, "Ожидалась '('"))
             {
                 SkipTo(TokenType.Semicolon, TokenType.RightBrace);
@@ -262,6 +248,7 @@ namespace TLab1.Parser
                 return;
             }
 
+            
             if (!Expect(TokenType.Identifier, "Ожидалось имя переменной"))
             {
                 SkipTo(TokenType.RightParen, TokenType.Semicolon, TokenType.RightBrace);
@@ -272,15 +259,12 @@ namespace TLab1.Parser
                     _stream.Advance();
                     return;
                 }
-
-                
             }
 
+            
             if (!Expect(TokenType.RightParen, "Ожидалась ')'"))
             {
                 SkipTo(TokenType.Semicolon, TokenType.RightBrace);
-
-                
                 _suppressErrors = false;
                 return;
             }
