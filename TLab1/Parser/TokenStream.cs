@@ -85,6 +85,7 @@ namespace TLab1.Parser
                 _position++;
         }
 
+
         public bool Check(TokenType code)
         {
             return !IsAtEnd && Current.Code == (int)code;

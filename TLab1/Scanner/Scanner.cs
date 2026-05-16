@@ -72,8 +72,7 @@ namespace TLab1
                     {
                         char current = text[pos];
 
-                        // Диапазон ".." не приклеиваем к лексеме
-                        if (current == '.' && pos + 1 < text.Length && text[pos + 1] == '.')
+                        if (current == '.')
                             break;
 
                         lexeme += current;
