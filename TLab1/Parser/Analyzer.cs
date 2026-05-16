@@ -51,19 +51,21 @@ namespace TLab1.Parser
         {
             _suppressErrors = false;
 
+            int beforeFor = _stream.Position;
             bool hasFor = Expect(TokenType.For, "Ожидалось ключевое слово for");
 
             if (!hasFor)
             {
-                
-                SkipTo(TokenType.LeftParen);
+                // Если Expect сам не съел ошибочный токен, съедаем его вручную
+                if (_stream.Position == beforeFor && !_stream.IsAtEnd)
+                    _stream.Advance();
+
                 _suppressErrors = false;
             }
 
-
             if (!Expect(TokenType.LeftParen, "Ожидалась левая открывающая скобка"))
             {
-                
+                // Не делаем SkipTo(LeftParen), иначе можно перескочить до println(
                 _suppressErrors = false;
             }
 

@@ -60,33 +60,21 @@ namespace TLab1
                     continue;
                 }
 
-                
+
                 if (!char.IsWhiteSpace(c) && !IsSingleSeparator(c))
                 {
                     string lexeme = "";
-                    bool hasIllegalChars = false;
                     bool startsWithDigit = char.IsDigit(c);
 
-                    while (pos < text.Length && !char.IsWhiteSpace(text[pos]) && !IsSingleSeparator(text[pos]))
+                    while (pos < text.Length &&
+                           !char.IsWhiteSpace(text[pos]) &&
+                           !IsSingleSeparator(text[pos]))
                     {
                         char current = text[pos];
 
-                        if (!char.IsLetterOrDigit(current))
-                        {
-                            
-                            if (current == '.' && pos + 1 < text.Length && text[pos + 1] == '.')
-                                break;
-
-                     
-                            if (lexeme.Length > 0)
-                                break;
-
-                            lexeme += current;
-                            pos++;
-                            col++;
-                            hasIllegalChars = true;
+                        // Диапазон ".." не приклеиваем к лексеме
+                        if (current == '.' && pos + 1 < text.Length && text[pos + 1] == '.')
                             break;
-                        }
 
                         lexeme += current;
                         pos++;
@@ -95,17 +83,12 @@ namespace TLab1
 
                     TokenType type;
 
-                    if (hasIllegalChars)
-                    {
-                        type = TokenType.Error;
-                    }
-                    else if (startsWithDigit)
+                    if (startsWithDigit)
                     {
                         type = IsOnlyDigits(lexeme) ? TokenType.IntLiteral : TokenType.Error;
                     }
                     else
                     {
-                        
                         switch (lexeme)
                         {
                             case "for":
@@ -127,7 +110,7 @@ namespace TLab1
                     continue;
                 }
 
-                
+
                 tokens.Add(CreateToken(TokenType.Error, c.ToString(), line, startCol, col, startPos));
                 pos++;
                 col++;
