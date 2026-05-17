@@ -74,6 +74,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AstTreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AstTreeForm.Designer.cs">
+      <DependentUpon>AstTreeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AST\AstNode.cs" />
+    <Compile Include="AST\BlockNode.cs" />
+    <Compile Include="AST\ForLoopNode.cs" />
+    <Compile Include="AST\FunctionCallNode.cs" />
+    <Compile Include="AST\IdentifierNode.cs" />
+    <Compile Include="AST\IntLiteralNode.cs" />
+    <Compile Include="AST\ProgramNode.cs" />
+    <Compile Include="AST\RangeExpressionNode.cs" />
+    <Compile Include="AST\SemanticAnalyzer.cs" />
     <Compile Include="Parser\Analyzer.cs" />
     <Compile Include="Parser\ParseError.cs" />
     <Compile Include="Parser\Result.cs" />
@@ -92,6 +107,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanner\Token.cs" />
+    <EmbeddedResource Include="AstTreeForm.resx">
+      <DependentUpon>AstTreeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.en.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

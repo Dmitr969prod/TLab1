@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using TLab1.Parser;
 using System.Runtime.Remoting;
+using TLab1.Semantic;
 
 namespace TLab1
 {
@@ -170,41 +171,43 @@ namespace TLab1
 
         public void StartProgram2(DocInfo docInfo)
         {
-            List<Token> ScanResult = scanner.Analyze(docInfo.TextBox.Text);
+            List<Token> scanResult = scanner.Analyze(docInfo.TextBox.Text);
 
             docInfo.DataGrid.Columns.Clear();
             docInfo.DataGrid.Rows.Clear();
 
             var parser = new Analyzer();
-            var tokens = parser.Parse(ScanResult);
+            var result = parser.Parse(scanResult);
+
+
+            List<ParseError> semanticErrors = new List<ParseError>();
+
+            if (result.ErrorCount == 0)
+            {
+                SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
+                semanticErrors = semanticAnalyzer.Analyze(result.AstRoot);
+            }
 
             docInfo.DataGrid.Columns.Add("Leks", "Неверный фрагмент");
             docInfo.DataGrid.Columns.Add("Place", "Местоположение");
             docInfo.DataGrid.Columns.Add("Code", "Описание");
-            
 
-            foreach (ParseError token in tokens.Errors)
+            foreach (ParseError error in semanticErrors)
             {
                 int rowIndex = docInfo.DataGrid.Rows.Add(
-                    token.InvalidFragment,
-                    token.LocationText,
-                    token.Message
+                    error.InvalidFragment,
+                    error.LocationText,
+                    error.Message
                 );
+
                 docInfo.DataGrid.Rows[rowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
-                docInfo.DataGrid.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Black;
             }
-            docInfo.DataGrid.Rows.Add(
-    "ИТОГО:",
-    "",
-    $"Количество ошибок: {tokens.ErrorCount.ToString()}"
-);
 
             
-            if (docInfo.DataGrid.Rows.Count > 0)
+            if (semanticErrors.Count == 0)
             {
-                int lastRowIndex = docInfo.DataGrid.Rows.Count - 2;
-                docInfo.DataGrid.Rows[lastRowIndex].DefaultCellStyle.BackColor = Color.LightYellow;
-                docInfo.DataGrid.Rows[lastRowIndex].DefaultCellStyle.Font = new Font(docInfo.DataGrid.Font, FontStyle.Bold);
+                AstTreeForm form = new AstTreeForm(result.AstRoot);
+                form.ShowDialog();
             }
         }
 
