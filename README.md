@@ -271,6 +271,7 @@ for (i in 0..9){
 ![](TLab1/image/5_3.png)
 ### Построение CFG
 ![](TLab1/image/5_4.png)
+![](TLab1/image/5_5.png)
 
 ## Индивидуальное задание
 
