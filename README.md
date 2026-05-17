@@ -281,7 +281,7 @@ for (i in 0..9){
 
 ![](TLab1/image/6_2.png)
 ![](TLab1/image/6_3.png)
-
+![](TLab1/image/6_4.png)
 
 ## Инструкция по запуску
 - Запустить exe.
