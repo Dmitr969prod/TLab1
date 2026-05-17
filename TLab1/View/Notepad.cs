@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -126,9 +126,9 @@ namespace TLab1
         }
         public string GetLineNumbers(RichTextBox textBox)
         {
-/*            var lines = textBox.Lines;
+*//*            var lines = textBox.Lines;
             if (lines.Length == 0)
-                return "1";*/
+                return "1";*//*
 
             StringBuilder sb = new StringBuilder();
             for (int i = 1; i <= 100; i++)
@@ -308,3 +308,4 @@ namespace TLab1
         }
     }
 }
+*/
