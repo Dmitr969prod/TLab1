@@ -21,7 +21,7 @@ namespace TLab1
 
         private DocumentManager _documentManager;
         private Scanner scanner = new Scanner();
-
+        private RichTextBox currentSearchTextBox;
         public Notepad(DocumentManager manager)
         {
             _documentManager = manager;
@@ -306,5 +306,6 @@ namespace TLab1
         {
             r.SelectAll();
         }
+
     }
 }

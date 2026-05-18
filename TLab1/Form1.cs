@@ -17,29 +17,64 @@ namespace TLab1
 
     public partial class Form1 : Form
     {
+        private Notepad notepad;
+        private RegexSearchClass regexSearch;
+
+        //private RichTextBox richTextBoxEditor;
+        //private DataGridView dataGridViewResults;
+        /*private ComboBox comboBoxSearchType;
+        private Button buttonSearch;*/
 
         private DocumentManager manager;
-        private Notepad notepad;
+        //private Notepad notepad;
         private Scanner scanner = new Scanner();
         Information info = new Information();
-        
 
+        //private RichTextBox richTextBoxEditor;
+        //private DataGridView dataGridViewResults;
+        private ComboBox comboBoxRegex;
+        //private Label labelRegex;
+        //private Label labelCount;
+        //private Button buttonRegexSearch;
+        //private Button buttonAutomatonSearch;
 
         public Form1()
         {
             InitializeComponent();
 
-            scanner.Analyze("for (i in 0..9) ");
-
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
-            manager = new DocumentManager(tabControl1);
-            notepad = new Notepad(manager);
-            this.AllowDrop = true;
-            this.DragEnter += Form1_DragEnter;
-            this.DragDrop += Form1_DragDrop;
-
+            regexSearch = new RegexSearchClass(
+    richTextBoxEditor,
+    dataGridViewResults,
+    comboBoxSearchType,
+    labelCount,
+    labelRegex);
+        }
+        private void comboBoxRegex_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateRegexLabel();
         }
 
+        private void UpdateRegexLabel()
+        {
+            if (comboBoxRegex.SelectedItem == null)
+                return;
+
+            switch (comboBoxRegex.SelectedItem.ToString())
+            {
+                case "Цитаты":
+                    labelRegex.Text = "Регулярное выражение: /'[^']*'/";
+                    break;
+
+                case "Идентификаторы":
+                    labelRegex.Text = "Регулярное выражение: /\\b[a-zA-Z$_][a-zA-Z0-9]*\\b/";
+                    break;
+
+                case "Автомобильные номера":
+                    labelRegex.Text = "Регулярное выражение: /^([АВЕКМНОРСТУХ])(\\d{3})([АВЕКМНОРСТУХ]{2})(\\d{2,3})$/";
+                    break;
+            }
+        }
+        
 
         private void Form1_DragEnter(object sender, DragEventArgs e)
         {
@@ -89,7 +124,7 @@ namespace TLab1
             notepad.OpenFile();
         }
 
-        private void toolStripButton4_Click(object sender, EventArgs e)
+        /*private void toolStripButton4_Click(object sender, EventArgs e)
         {
             var doc = manager.GetDocument(tabControl1.SelectedTab);
             notepad.SaveTab(doc);
@@ -105,7 +140,7 @@ namespace TLab1
         {
             var doc = manager.GetDocument(tabControl1.SelectedTab);
             notepad.SaveTab(doc);
-        }
+        }*/
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -113,7 +148,7 @@ namespace TLab1
             notepad.OpenFile();
         }
 
-        private void toolStripButton5_Click(object sender, EventArgs e)
+        /*private void toolStripButton5_Click(object sender, EventArgs e)
         {
             var doc = manager.GetDocument(tabControl1.SelectedTab);
             notepad.FileUndo(doc.TextBox);
@@ -183,7 +218,7 @@ namespace TLab1
         {
             var doc = manager.GetDocument(tabControl1.SelectedTab);
             notepad.FileSelectAll(doc.TextBox);
-        }
+        }*/
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -210,11 +245,11 @@ namespace TLab1
             info.AboutInstructions();
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+       /* private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             var doc = manager.GetDocument(tabControl1.SelectedTab);
             notepad.ChangeSize(doc, (float)numericUpDown1.Value);
-        }
+        }*/
 
         private void текстToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -231,15 +266,35 @@ namespace TLab1
             notepad.ChangeLanguage("en", this);
         }
 
-        private void toolStripButton10_Click(object sender, EventArgs e)
+        /*private void toolStripButton10_Click(object sender, EventArgs e)
         {
             var doc = manager.GetDocument(tabControl1.SelectedTab);
             notepad.StartProgram2(doc);
-        }
+        }*/
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonSearch_Click_1(object sender, EventArgs e)
+        {
+            regexSearch.PerformRegexSearch();
+        }
+
+        private void buttonAutomatonSearch_Click_1(object sender, EventArgs e)
+        {
+            regexSearch.PerformAutomatonSearch();
         }
     }
 }
