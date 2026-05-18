@@ -74,6 +74,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutomatonGraphForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Parser\Analyzer.cs" />
     <Compile Include="Parser\ParseError.cs" />
     <Compile Include="Parser\RegexSearchClass.cs" />

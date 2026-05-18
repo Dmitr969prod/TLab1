@@ -292,9 +292,13 @@ namespace TLab1
             regexSearch.PerformRegexSearch();
         }
 
+
         private void buttonAutomatonSearch_Click_1(object sender, EventArgs e)
         {
             regexSearch.PerformAutomatonSearch();
+
+            AutomatonGraphForm graphForm = new AutomatonGraphForm();
+            graphForm.Show();
         }
     }
 }
