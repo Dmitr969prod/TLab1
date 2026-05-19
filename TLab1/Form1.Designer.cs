@@ -77,6 +77,7 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonShowAst = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -439,11 +440,19 @@
             this.toolStripButton1.MergeAction = System.Windows.Forms.MergeAction.Replace;
             this.toolStripButton1.Name = "toolStripButton1";
             // 
+            // toolStripButtonShowAst
+            // 
+            resources.ApplyResources(this.toolStripButtonShowAst, "toolStripButtonShowAst");
+            this.toolStripButtonShowAst.Name = "toolStripButtonShowAst";
+            this.toolStripButtonShowAst.UseVisualStyleBackColor = true;
+            this.toolStripButtonShowAst.Click += new System.EventHandler(this.toolStripButtonShowAst_Click);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Controls.Add(this.toolStripButtonShowAst);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.toolStrip1);
@@ -511,6 +520,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.ToolStripMenuItem русскийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
+        private System.Windows.Forms.Button toolStripButtonShowAst;
     }
 }
 

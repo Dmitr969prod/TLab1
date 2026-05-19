@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TLab1.AST;
 
 namespace TLab1
 {
     public class DocInfo
     {
+        public AstNode LastAstRoot { get; set; }
+        public bool LastAstIsValid { get; set; }
         public string FileName { get; set; }
         public RichTextBox TextBox { get; set; }
         public DataGridView DataGrid { get; set; }

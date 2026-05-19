@@ -176,21 +176,32 @@ namespace TLab1
             docInfo.DataGrid.Columns.Clear();
             docInfo.DataGrid.Rows.Clear();
 
+            docInfo.LastAstRoot = null;
+            docInfo.LastAstIsValid = false;
+
             var parser = new Analyzer();
             var result = parser.Parse(scanResult);
-
-
-            List<ParseError> semanticErrors = new List<ParseError>();
-
-            if (result.ErrorCount == 0)
-            {
-                SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
-                semanticErrors = semanticAnalyzer.Analyze(result.AstRoot);
-            }
 
             docInfo.DataGrid.Columns.Add("Leks", "Неверный фрагмент");
             docInfo.DataGrid.Columns.Add("Place", "Местоположение");
             docInfo.DataGrid.Columns.Add("Code", "Описание");
+
+            
+            if (result.ErrorCount > 0)
+            {
+                MessageBox.Show(
+                    "В коде есть синтаксические ошибки. AST не построено.",
+                    "Синтаксические ошибки",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return;
+            }
+
+            
+            var semanticAnalyzer = new TLab1.Semantic.SemanticAnalyzer();
+            List<ParseError> semanticErrors = semanticAnalyzer.Analyze(result.AstRoot);
 
             foreach (ParseError error in semanticErrors)
             {
@@ -201,16 +212,46 @@ namespace TLab1
                 );
 
                 docInfo.DataGrid.Rows[rowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                docInfo.DataGrid.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Black;
             }
 
             
-            if (semanticErrors.Count == 0)
+            if (semanticErrors.Count > 0)
             {
-                AstTreeForm form = new AstTreeForm(result.AstRoot);
-                form.ShowDialog();
-            }
-        }
+                docInfo.DataGrid.Rows.Add(
+                    "ИТОГО:",
+                    "",
+                    $"Количество семантических ошибок: {semanticErrors.Count}"
+                );
 
+                return;
+            }
+
+            
+            docInfo.LastAstRoot = result.AstRoot;
+            docInfo.LastAstIsValid = true;
+
+            docInfo.DataGrid.Rows.Add(
+                "",
+                "",
+                "Семантических ошибок нет. AST построено."
+            );
+
+            
+            AstTreeForm treeForm = new AstTreeForm(result.AstRoot);
+            treeForm.ShowDialog();
+        }
+        public void ShowAst(DocInfo docInfo)
+        {
+            if (docInfo == null || !docInfo.LastAstIsValid || docInfo.LastAstRoot == null)
+            {
+                MessageBox.Show("AST не построено. Сначала нажмите Пуск.");
+                return;
+            }
+
+            AstGraphForm graphForm = new AstGraphForm(docInfo.LastAstRoot);
+            graphForm.ShowDialog();
+        }
         public void SaveTab(DocInfo docInfo)
         {
 

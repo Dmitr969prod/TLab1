@@ -241,6 +241,12 @@ namespace TLab1
         {
 
         }
+
+        private void toolStripButtonShowAst_Click(object sender, EventArgs e)
+        {
+            var doc = manager.GetDocument(tabControl1.SelectedTab);
+            notepad.ShowAst(doc);
+        }
     }
 }
 
