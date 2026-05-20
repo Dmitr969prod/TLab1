@@ -74,11 +74,11 @@ namespace TLab1.Parser
                     startToken.Value + ";" + endToken.Value
                 );
 
-                _stream.Advance(); // f
-                _stream.Advance(); // ;
-                _stream.Advance(); // or
+                _stream.Advance(); 
+                _stream.Advance(); 
+                _stream.Advance(); 
 
-                hasFor = true; // считаем, что for уже обработан как ошибочный
+                hasFor = true; 
                 _suppressErrors = false;
             }
             else
@@ -101,7 +101,7 @@ namespace TLab1.Parser
                 _suppressErrors = false;
             }
 
-            // дальше остальной код без изменений
+            
 
             if (!Expect(TokenType.Identifier, "Ожидалось имя переменной"))
             {
