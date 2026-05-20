@@ -34,24 +34,47 @@ namespace TLab1
                     continue;
                 }
 
-              
-                if (c == '.' && pos + 1 < text.Length && text[pos + 1] == '.')
-                {
-                    tokens.Add(CreateToken(TokenType.Range, "..", line, startCol, col + 1, startPos));
-                    pos += 2;
-                    col += 2;
-                    continue;
-                }
-                
+
                 if (c == '.')
                 {
-                    tokens.Add(CreateToken(TokenType.Error, ".", line, startCol, col, startPos));
-                    pos++;
-                    col++;
+                    int dotStart = pos;
+                    int dotStartCol = col;
+
+                    while (pos < text.Length && text[pos] == '.')
+                    {
+                        pos++;
+                        col++;
+                    }
+
+                    string dots = text.Substring(dotStart, pos - dotStart);
+
+                    if (dots == "..")
+                    {
+                        tokens.Add(CreateToken(
+                            TokenType.Range,
+                            dots,
+                            line,
+                            dotStartCol,
+                            col - 1,
+                            dotStart
+                        ));
+                    }
+                    else
+                    {
+                        tokens.Add(CreateToken(
+                            TokenType.Error,
+                            dots,
+                            line,
+                            dotStartCol,
+                            col - 1,
+                            dotStart
+                        ));
+                    }
+
                     continue;
                 }
 
-                
+
                 if (IsSingleSeparator(c))
                 {
                     tokens.Add(CreateToken(GetSeparatorType(c), c.ToString(), line, startCol, col, startPos));
